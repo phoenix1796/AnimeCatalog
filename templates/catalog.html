@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>SuuchiPatr - Catalog</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/materialize.css')}}">
+    <script src="{{ url_for('static', filename='js/materialize.js') }}"></script>
+</head>
+<style>
+    .category {
+        margin: 2vmin 1vmin;
+    }
+    .wrapper{
+        display:grid;
+        height:90vh;
+        width: 90vw;
+        transform: translate(-50%,-50%);
+        position: absolute;
+        left:50%;
+        top:50%;
+        background-color: #f4f4f4;
+        grid-template-columns: 1fr 3fr;
+    }
+    .sidebar{
+        border-right: 0.5vmin solid black;
+        height:90%;
+        padding: 12% 10%;
+        align-self: center;
+        text-align: center;
+    }
+    .viewContent{
+        vertical-align: middle;
+    }
+    .categoryDetails{
+        transform: translate(-50%,-50%);
+        position: relative;
+        left:50%;
+        top:50%;
+        background-color:#ffffff;
+        width:90%;
+        height:90%;
+        padding: 2em;
+        border-radius: 5px;
+        font-size:1.2em;
+    }
+    .header-image{
+        background-image: url("http://via.placeholder.com/700x40/ff0000");
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+</style>
+<body>
+    <div class="container wrapper">
+        <div class="sidebar">
+            <h4 class="title text-center font-weight-bold">
+                    Categories
+            </h4>
+            {% for category in categories %}
+            <div class="waves-effect waves-light btn category">
+                {{category.name}}
+            </div>
+            {% endfor %}
+        </div>
+        <div class="viewContent">
+            {% if category %}
+            <div class="categoryDetails">
+                <h4 class="title text-center font-weight-bold">
+                    {{category.title}}
+                </h4>
+                <hr/>
+                <div class="jumbotron header-image">
+                </div>
+                <h5>
+                    Summary
+                </h5>
+                <p class="text-justify summary"> 
+                    {{category.summary}}
+                </p>
+            </div>
+            {%else%}
+            <div style="position: relative;transform: translateY(-50%);top:50%;">
+                <h4 class="title text-center font-weight-bold">
+                    Select a category ... <br>
+                    Shounen!
+                </h4>
+            </div>
+            {% endif %}                
+        </div>
+    </div>
+</body>
+</html>
