@@ -9,8 +9,8 @@ Base = declarative_base()
 class Category(Base):
     __tablename__ = 'category'
     name = Column(
-    String(80), nullable=False)
-    description = Column(
+    String(80), unique=True,nullable=False)
+    summary = Column(
         String(500), nullable=False)
     id = Column(
         Integer, primary_key = True
@@ -19,7 +19,7 @@ class Category(Base):
     def serialize(self):
         return {
             'name': self.name,
-            'description': self.description,
+            'summary': self.description,
             'id': self.id
         }
 
@@ -27,9 +27,8 @@ class CatalogItem(Base):
     __tablename__ = 'catalog_item'
     name = Column(String(80), nullable=False)
     id = Column(Integer, primary_key=True)
-    description = Column(String(250))
-    price = Column(String(8))
-    restaurant_id = Column(
+    summary = Column(String(250))
+    category_id = Column(
         Integer, ForeignKey('category.id')
     )
     category = relationship(Category)
@@ -37,9 +36,8 @@ class CatalogItem(Base):
     def serialize(self):
         return {
             'name': self.name,
-            'description':self.description,
+            'summary':self.description,
             'id': self.id,
-            'price': self.price,
             'course': self.course
         }
 

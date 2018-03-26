@@ -1,4 +1,3 @@
-{% set category = category|default('') -%}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,43 +8,44 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="{{url_for('static',filename='css/materialize.css')}}">
     <script src="{{ url_for('static', filename='js/materialize.js') }}"></script>
-    <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">    
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
 </head>
 <body>
     <div class="container wrapper">
         <div class="sidebar">
+            <a href="{{ url_for('viewCategory', category = category.name) }}" class="btn back waves-effect waves-light">
+                Back <-
+            </a>
             <h4 class="title text-center font-weight-bold">
-                    Categories
+                    Anime
             </h4>
-            {% for i in categoryList %}
-            <a href="{{ url_for('viewCategory',category = i.name) }}" class="{{ 'disabled' if i.name == category.name}} waves-effect waves-light btn category">
-                {{i.name}}
+            {% for item in items %}
+            <a href="{{ url_for('viewItem', category = category.name, item = item.name) }}" class="{{ 'disabled' if item.name == anime.name}} waves-effect waves-light btn category">
+                {{item.name}}
             </a>
             {% endfor %}
-            </div>
+        </div>
         <div class="viewContent">
-            {% if category %}
+            {% if anime %}
             <div class="categoryDetails">
                 <h4 class="title text-center font-weight-bold">
-                    {{category.name}}
+                    {{anime.name}}
                 </h4>
                 <hr/>
                 <div class="jumbotron header-image">
                 </div>
-                <ul>
-                    {% for i in items %}
-                    <a href="{{ url_for('viewItem', category = category.name, item = i.name) }}">
-                        <li>
-                            {{i.name}}
-                        </li>
-                    </a>
-                    {% endfor %}
-                </ul>
+                <h5>
+                    Summary
+                </h5>
+                <p class="text-justify summary"> 
+                    {{anime.summary}}
+                </p>
             </div>
             {%else%}
-            <div style="position: relative;transform: translateY(-50%);top:50%;">
+            <div class="vertRelative">
                 <h4 class="title text-center font-weight-bold">
-                    Select a category ... <br>
+                    Select an Anime ... <br>
+                    Shounen!
                 </h4>
             </div>
             {% endif %}                

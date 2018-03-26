@@ -366,14 +366,14 @@ items = [
 #   /*categories:[
 #     '{{repeat(10,10)}}',
 #       {
-#         name:'{{lorem(1, "words")}}',
-#         description:'{{lorem(1,"paragraph")}}'
+#         'name':'{{lorem(1, "words")}}',
+#         'summary':'{{lorem(1,"paragraph")}}'
 #       }
 # 	]*/
 #     items:[
 #       '{{repeat(50,50)}}',
 #       {	id:'{{index()}}',
-#         name:'{{lorem(1, "words")}}',
+#         'name':'{{lorem(1, "words")}}',
 # category:'{{random("labore","reprehenderit","sunt","ipsum","proident","irure","aute","laborum","fugiat","esse")}}',
 #         description:'{{lorem(1, "paragraph")}}'
 	
@@ -383,7 +383,95 @@ items = [
 
 def showName(a):
     print(a.name,':',a.id)
+
+
+categorySum = [
+  'The action genre in anime depicts extremely high levels of intense action. More often than not, you’ll be witnessing thrilling battles and action-packed fight scenes in the shows from this genre. These series will make you jump off your seat or knock your socks off. Overall, the action genre usually possesses lots of battle scenes, fluid animation, and highly-engaging elements that will make your adrenaline rush!',
+  'The adventure genre is about travelling and undertaking an adventure in a certain place or around the world (which may sometimes escalate to the whole universe or even to the other dimensions). In this genre, the main characters don’t usually stay in one place. They venture into several different places, usually with a goal in mind (e.g. searching for treasure, exploring some new place, defeating a heinous villain, or saving the world). Adventure anime are so broad and flexible that these shows can usually stretch to a huge number of episodes as well as overlap with multiple genres, usually with action.',
+  'The main purpose of the comedy genre is…you got it…to make you laugh! If it fails to make you laugh or at least make you giggle, then it’s a failure. But then again, humor can depend on your personal sense of humor. The animation may not be as impressive as TV shows in the action and drama category, but that can be forgiven for the laughs. Funny moments, hilarious scenes, wacky dialogue, comical happenings—all of these are covered by the comedy genre in anime!',
+  'Bringing us tears and a wave of emotions is basically what the drama genre does best! Drama anime tends to connect the viewers to the experiences of the characters. This results in viewers feeling what the characters are going through. Whether it\'s a tickle of emotion or a barrage of feelings, the goal of these series is to touch our hearts. In anime, one of the greatest signs that the drama effectively worked is if it was able to make you cry.',
+  'When one says slice of life, that means the mundane good ol’ life. Stories depicted in this genre are realistically set in the domain of real life. Nothing out-of-the-blue happens, but that’s the point! Everyday life is portrayed in a realistic light, with nothing out of the extraordinary wrecking the premise.',
+  'The fantasy genre in anime primarily deals with fantasy worlds and surreal events and locations. Most of the time, the setting is in a magical world where the characters start an adventure. Sometimes they get sent there from the real world. Magic is oftentimes a component of this genre, and various mystical elements serve as the building blocks of the story. You’ll often know it’s a fantasy anime if the environment and atmosphere seems so dazzling and dreamlike that it’ll make you feel captivated and allured.',
+  'Magic, in all its essence, is about magical stuff like spells and incantations. It can also include magical sources, beings that grants wishes, and good ol’ sleeve tricks. One of the most famous themes in the magic genre is magical girls. It is so popular that it might just become a whole new genre on its own in the future.',
+  'When one says supernatural, they’re referring to stuff or events that are odd and out-of-the-blue. For this category, supernatural might refer to something mythical, mystical, bizarre, or something outside the bounds of accepted reality. There’s a shadow of mystery often found in shows involved with this genre.',
+  'It’s not difficult to spot the horror genre in anime. Usually, if there are ghosts, monsters, gore, and creeps, then you’re likely watching a horror series. Heavy gore and bloody violence is a common trait. The most important factor for a show to be considered horror is its ability to scare and creep you out.',
+  'If there’s one thing that’s similar in all mystery anime shows, it is the existence of a central enigma. Whether it’s an event, a place, or an item, there’s some sort of mystery surrounding the narrative. In the history of anime, the most popular shows in the genre have featured detectives and gumshoes.',
+  'Psychological anime are shows that delve into how the mind and psyche work. This genre tackles everything on a psychological level (sometimes even philosophical). You’ll often find mind games here as well as battles where the use of the wits is the primary focus. Series in this genre will play with your mind and make you think hard.',
+  'Romance is all about love and sweet moments. Shows involved with this genre often have the skill to tug everyone’s heartstrings with their romantic scenes and tender moments. The focus of these shows is the romantic relationships between the characters as well as their blooming love with one another. You’ll often find romance anime tightly tied with the shoujo subgenre, but it also works pretty well with comedy, harem, and drama.',
+  'Sci-fi (short for science fiction) is a genre that showcases scientific and technological elements in its story. Machines and various kinds of technologies are staples of this genre. Most of the time, its focus is on the advancement and development of science and technology. That is why you’ll often find sci-fi combined with subgenres such as mecha and space.'
+]
+categories = [
+  'Action',
+  'Adventure',
+  'Comedy',
+  'Drama',
+  'Slice of Life',
+  'Fantasy',
+  'Magic',
+  'Supernatural',
+  'Horror',
+  'Mystery',
+  'Psychological',
+  'Romance',
+  'Sci-Fi'
+]
+anime = {
+  'Action':[
+    {'name':'Gurren Lagann', 'summary':''},
+    {'name':'Fullmetal Alchemist', 'summary':''}
+  ],
+  'Adventure':[
+    {'name':'One Piece','summary':''},
+    {'name':'Hunter X Hunter', 'summary':''}
+  ],
+  'Comedy':[
+    {'name':'Gintama','summary':''},
+    {'name':'The Melancholy of Haruhi Suzumiya', 'summary':''}
+  ],
+  'Drama':[
+    {'name':'Clannad','summary':''},
+    {'name':'Anohana: The Flower We Saw That Day', 'summary':''}
+  ],
+  'Slice of Life':[
+    {'name':'Barakamon','summary':''},
+    {'name':'Lucky Star', 'summary':''}
+  ],
+  'Fantasy':[
+    {'name':'Nanatsu no Taizai','summary':''},
+    {'name':'Inuyasha', 'summary':''}
+  ],
+  'Magic':[
+    {'name':'Little Witch Academia','summary':''},
+    {'name':'Magical Doremi', 'summary':''}
+  ],
+  'Supernatural':[
+    {'name':'Durarara!!','summary':''},
+    {'name':'Bakemonogatari', 'summary':''}
+  ],
+  'Horror':[
+    {'name':'Parasyte -the maxim-','summary':''},
+    {'name':'Hell Girl', 'summary':''}
+  ],
+  'Mystery':[
+    {'name':'Detective Conan','summary':''},
+    {'name':'Hyouka', 'summary':''}
+  ],
+  'Psychological':[
+    {'name':'Death Note','summary':''},
+    {'name':'Zetsuen no Tempest', 'summary':''}
+  ],
+  'Romance':[
+    {'name':'Honey and Clover','summary':''},
+    {'name':'Toradora', 'summary':''}
+  ],
+  'Sci-Fi':[
+    {'name':'Space Dandy','summary':''},
+    {'name':'Cowboy Bebop', 'summary':''}
+  ]
+}
+
 if __name__ == '__main__':
+    print('In main')
     from sqlalchemy import create_engine
     from sqlalchemy.orm import sessionmaker
     from database_setup import Base,Category,CatalogItem
@@ -396,9 +484,15 @@ if __name__ == '__main__':
 
     # myFirstRestaurant = Restaurant(name = "Pizza palace")
 
-    for category in categories:
-        myCategory = Category(name = category['name'],id=category['id'], description = category['description'])
+    for idx,category in enumerate(categories):
+        myCategory = Category(name = category, summary = categorySum[idx])
         session.add(myCategory)
         session.commit()
+        for item in anime[category]:
+          session.add(myItem)
+          myItem = CatalogItem(name = item['name'], summary = item['summary'], category = myCategory)
+          session.commit()
 
-    print(map(showName,session.query(Category).all()))
+    print(list(map(showName,session.query(Category).all())))
+    print(list(map(showName,session.query(CatalogItem).all())))
+#https://reelrundown.com/animation/Anime-Genre-List

@@ -14,24 +14,38 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 categories = [
-    {'name':'snoweestuff','description':'cvfs'},
-    {'name':'land stuff','description':'fe'}]
+    {'name':'snoweestuff','description':'cvfs','summary':'lorem lorem lorem loremlorem loremlorem loremloremlorem lorem lorem'},
+    {'name':'land stuff','description':'fe','summary':'ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsumipsum ipsum ipsum ipsum ipsum ipsum'}]
 
+singleCategory =     {'name':'snoweestuff','description':'cvfs','summary':'lorem lorem lorem loremlorem loremlorem loremloremlorem lorem lorem'}
 items = [
-        {'name':'Snowboard','category':'snoweestuff','description':'loremipsumloremipsumloremipsumloremipsumloremipsumloremipsumloremipsumloremipsumloremipsum'},
-        {'name':'skateboard','category':'land stuff','description':'loremipsumloremipsumloremipsumloremipsumloremipsumloremipsumloremipsumloremipsumloremipsumasdff'}
+        {'name':'Snowboard','category':'snoweestuff','summary':'loremipsumloremipsumloremipsumloremipsumloremipsumloremipsumloremipsumloremipsumloremipsum'},
+        {'name':'skateboard','category':'land stuff','summary':'loremipsumloremipsumloremipsumloremipsumloremipsumloremipsumloremipsumloremipsumloremipsumasdff'}
         ]
 
-item = {'id':'1','name':'skateboard','category':'land stuff','summary':'loremipsumloremipsumloremipsumloremipsumloremipsumloremipsumlorem ipsumloremipsumloremipsumasdff'}
+singleItem = {'id':'1','name':'skateboard','category':'land stuff','summary':'loremipsumloremipsumloremipsumloremipsumloremipsumloremipsumlorem ipsumloremipsumloremipsumasdff'}
+
+def getAllCategories():
+    return session.query(Category).with_entities(Category.name).all()
+def getCategoryByName(name):
+    return session.query(Category).filter_by(name = name).one()
+
+def getItemsByCategory(category):
+    return session.query(CatalogItem).filter_by(category_id = category.id)
 
 @app.route('/')
 @app.route('/catalog/')
 def showCatalog():
-    return render_template('catalog.html', categories = categories)
+    return render_template('catalog.html', categoryList = getAllCategories())
 
 @app.route('/catalog/<string:category>/items')
 def viewCategory(category):
-    return "Category page for the category %s" % category
+    categoryList = getAllCategories()
+    myCategory = getCategoryByName(category)
+    catalogItems = session.query(CatalogItem).filter_by(category_id = myCategory.id)
+    return render_template('catalog.html', categoryList = categoryList, 
+                                            category = myCategory,
+                                            items=catalogItems)
 
 @app.route('/catalog/<string:category>/items/JSON')
 def viewCategoryJSON(category):
@@ -39,7 +53,10 @@ def viewCategoryJSON(category):
 
 @app.route('/catalog/<string:category>/<string:item>')
 def viewItem(category, item):
-    return "View item : %s in category : %s" % (item ,category)
+    myCategory = getCategoryByName(category)
+    catalogItems = getItemsByCategory(myCategory)
+    item = session.query(CatalogItem).filter_by(name = item).one()
+    return render_template('item.html', category = myCategory, items = catalogItems, anime = item)
 
 @app.route('/catalog/<string:category>/<string:item>/JSON')
 def viewItemJSON(category, item):
