@@ -32,17 +32,19 @@
                     {{category.name}}
                 </h4>
                 <hr/>
-                <div class="jumbotron header-image">
-                </div>
-                <ul>
+                <div class="items">
                     {% for i in items %}
-                    <a href="{{ url_for('viewItem', category_name = category.name, item_name = i.name) }}">
-                        <li>
-                            {{i.name}}
-                        </li>
-                    </a>
+                    <div class="card item">
+                        <div class="card-content">
+                            <div class="card-title">{{i.name}}</div>
+                        </div>
+                        <div class="card-action">
+                            <a href="{{ url_for('viewItem', category_name = category.name, item_name = i.name) }}">Link</a>
+                        </div>
+                    </div>
                     {% endfor %}
-                </ul>
+                </div>
+
             </div>
             {%else%}
             <div style="position: relative;transform: translateY(-50%);top:50%;">
