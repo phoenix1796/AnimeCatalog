@@ -24,6 +24,9 @@
                 {{item.name}}
             </a>
             {% endfor %}
+            <a href="{{ url_for('newItem', category_name = category.name) }}" class="red darken-1 waves-effect waves-light btn">
+                    Add Anime
+            </a>
         </div>
         <div class="viewContent">
             {% if anime %}
@@ -42,6 +45,9 @@
                 </p>
                 <a href="{{ url_for('editItem', category_name = category.name, item_name = anime.name) }}" class="btn back waves-effect waves-light">
                     Edit
+                </a>
+                <a href="{{ url_for('deleteItem', category_name = category.name, item_name = anime.name) }}" class="btn back waves-effect waves-light">
+                    Delete
                 </a>
             </div>
             {%else%}

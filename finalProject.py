@@ -65,9 +65,9 @@ def viewItem(category_name, item_name):
 def viewItemJSON(category, item):
     return "JSON for item : %s in category : %s" % (item ,category)
 
-@app.route('/catalog/<string:category>/<string:item>/delete', methods = ['GET','POST'])
-def deleteItem(category, item):
-    return "delete item : %s in category : %s" % (item ,category)
+@app.route('/catalog/<string:category_name>/<string:item_name>/delete', methods = ['GET','POST'])
+def deleteItem(category_name, item_name):
+    return "delete item : %s in category : %s" % (item_name ,category_name)
 
 @app.route('/catalog/<string:category_name>/<string:item_name>/edit', methods = ['GET','POST'])
 def editItem(category_name, item_name):
@@ -90,6 +90,7 @@ def newCategory():
 
 @app.route('/catalog/new/item', methods = ['GET','POST'])
 def newItem():
+    # check for request Query param : category_name for default Category
     return "Create a new item page"
 
 if __name__=='__main__':

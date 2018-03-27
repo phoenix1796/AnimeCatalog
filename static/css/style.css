@@ -12,18 +12,6 @@
     background-color: #f4f4f4;
     grid-template-columns: 1fr 3fr;
 }
-.sidebar > .title{
-    margin-top:0;
-}
-.sidebar{
-    /* border-right: 0.5vmin solid black; */
-    max-height:90%;
-    height: 90%;
-    padding: 12% 10%;
-    align-self: center;
-    text-align: center;
-    position : relative;
-}
 .categories{
     overflow-y: scroll;
     max-height:95%;
@@ -49,6 +37,21 @@
     background-repeat: no-repeat;
 }
 
+.sidebar{
+    display: flex;
+    flex-direction: column;
+    max-height:100%;
+    height: 100%;
+    padding: 12% 10%;
+    align-self: center;
+    text-align: center;
+    position : relative;
+}
+
+.sidebar > .title{
+    margin-top:0;
+}
+
 .sidebar > .back {
     position: absolute;
     left: 0;
@@ -58,6 +61,7 @@
 
 .sidebar > .btn {
     text-overflow: ellipsis;
+    margin: 1vmin;
 }
 
 .items {
