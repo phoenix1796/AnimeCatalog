@@ -17,10 +17,10 @@
                 Back <-
             </a>
             <h4 class="title text-center font-weight-bold">
-                    Anime
+                {{category.name}} Anime
             </h4>
             {% for item in items %}
-            <a href="{{ url_for('viewItem', category = category.name, item = item.name) }}" class="{{ 'disabled' if item.name == anime.name}} waves-effect waves-light btn category">
+            <a href="{{ url_for('viewItem', category_name = category.name, item_name = item.name) }}" class="{{ 'disabled' if item.name == anime.name}} waves-effect waves-light btn category">
                 {{item.name}}
             </a>
             {% endfor %}
@@ -40,6 +40,9 @@
                 <p class="text-justify summary"> 
                     {{anime.summary}}
                 </p>
+                <a href="{{ url_for('editItem', category_name = category.name, item_name = anime.name) }}" class="btn back waves-effect waves-light">
+                    Edit
+                </a>
             </div>
             {%else%}
             <div class="vertRelative">

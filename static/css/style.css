@@ -12,15 +12,21 @@
     background-color: #f4f4f4;
     grid-template-columns: 1fr 3fr;
 }
+.sidebar > .title{
+    margin-top:0;
+}
 .sidebar{
-    border-right: 0.5vmin solid black;
+    /* border-right: 0.5vmin solid black; */
     max-height:90%;
     height: 90%;
     padding: 12% 10%;
     align-self: center;
     text-align: center;
     position : relative;
+}
+.categories{
     overflow-y: scroll;
+    max-height:95%;
 }
 .viewContent{
     vertical-align: middle;

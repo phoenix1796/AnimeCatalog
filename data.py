@@ -489,8 +489,8 @@ if __name__ == '__main__':
         session.add(myCategory)
         session.commit()
         for item in anime[category]:
-          session.add(myItem)
           myItem = CatalogItem(name = item['name'], summary = item['summary'], category = myCategory)
+          session.add(myItem)
           session.commit()
 
     print(list(map(showName,session.query(Category).all())))
