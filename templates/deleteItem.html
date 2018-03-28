@@ -13,17 +13,14 @@
 </head>
 <body>
     <div class="container wrapper">
-        <form class="editForm" action="{{ url_for('newCategory') }}" method="post">
-            <div class="input-field">
-                <label for="name">Name </label>
-                <input name="name" type="text"/>
+        <form class="editForm" action="{{ url_for('deleteItem',category_name = Category, item_name = Item) }}" method="post">
+            <input name="name" value="{{ Item }}" type="hidden"/>
+            <input name="category" value="{{ Category }}" type="hidden"/>
+            <div class="flow-text">
+                Do you want to delete {{ Item}} from Category {{ Category }} ?
             </div>
-            <div class="input-field">
-                <label for="summary">Summary </label>
-                <textarea class="materialize-textarea" name="summary" type="text"></textarea>
-            </div>
-            <button class="btn back waves-effect waves-light" type="submit">Create</button>
-            <a href="{{ url_for('viewCatalog')}}" class="btn back waves-effect waves-light">Cancel</a>            
+            <button class="btn back waves-effect waves-light" type="submit">Delete</button>
+            <a href="{{ url_for('viewItem', category_name=Category, item_name = Item.name) }}" class="btn back waves-effect waves-light">Cancel</a>            
         </form>
     </div>
 </body>

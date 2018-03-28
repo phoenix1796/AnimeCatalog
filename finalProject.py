@@ -42,7 +42,7 @@ def viewCatalog():
     return render_template('catalog.html', categoryList = getAllCategories())
 
 @app.route('/catalog/<string:category>/items')
-def viewCategory(category):
+def viewCategory(category = None):
     categoryList = getAllCategories()
     myCategory = getCategoryByName(category)
     catalogItems = session.query(CatalogItem).filter_by(category_id = myCategory.id)
@@ -67,7 +67,23 @@ def viewItemJSON(category, item):
 
 @app.route('/catalog/<string:category_name>/<string:item_name>/delete', methods = ['GET','POST'])
 def deleteItem(category_name, item_name):
-    return "delete item : %s in category : %s" % (item_name ,category_name)
+    if request.method == 'POST':
+        item = session.query(CatalogItem).filter_by(name = item_name).one()
+        session.delete(item)
+        session.commit()
+        return redirect(url_for('viewCategory', category = category_name))
+    else:
+        return render_template('deleteItem.html', Item = item_name, Category = category_name)
+
+@app.route('/catalog/<string:category_name>/delete', methods = ['GET','POST'])
+def deleteCategory(category_name):
+    if request.method == 'POST':
+        item = session.query(Category).filter_by(name = category_name).one()
+        session.delete(item)
+        session.commit()
+        return redirect(url_for('viewCatalog'))
+    else:
+        return render_template('deleteCategory.html', Category = category_name)
 
 @app.route('/catalog/<string:category_name>/<string:item_name>/edit', methods = ['GET','POST'])
 def editItem(category_name, item_name):
@@ -85,7 +101,13 @@ def editItem(category_name, item_name):
 
 @app.route('/catalog/new/category', methods = ['GET','POST'])
 def newCategory():
-    return "Create a new category page"
+    if request.method == 'POST':
+        newCategory = Category(name = request.form['name'], summary = request.form['summary'])
+        session.add(newCategory)
+        session.commit()
+        return redirect(url_for('viewCatalog'))
+    else:
+        return render_template('newCategory.html', CategoryList = getAllCategories())
 
 @app.route('/catalog/new/item', methods = ['GET','POST'])
 def newItem():
