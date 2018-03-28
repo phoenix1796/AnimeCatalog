@@ -19,7 +19,7 @@ def getCategoryByName(name):
     return session.query(Category).filter_by(name = name).one()
 
 def getItemsByCategory(category):
-    return session.query(CatalogItem).filter_by(category_id = category.id)
+    return session.query(CatalogItem).filter_by(category_id = category.id).all()
 
 def getItemByName(item_name):
     return session.query(CatalogItem).filter_by(name = item_name).one()

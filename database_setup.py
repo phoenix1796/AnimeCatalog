@@ -15,12 +15,15 @@ class Category(Base):
     id = Column(
         Integer, primary_key = True
     )
+    items = relationship('CatalogItem')
     @property
     def serialize(self):
+        print(self.items)
         return {
+            'id': self.id,
             'name': self.name,
-            'summary': self.description,
-            'id': self.id
+            'summary': self.summary,
+            'anime':[i.serialize for i in self.items]
         }
 
 class CatalogItem(Base):
@@ -36,8 +39,9 @@ class CatalogItem(Base):
     def serialize(self):
         return {
             'name': self.name,
-            'summary':self.description,
+            'summary':self.summary,
             'id': self.id,
+            'category': self.category.name
         }
 
 engine = create_engine(
