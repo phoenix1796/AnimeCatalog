@@ -31,14 +31,13 @@ class CatalogItem(Base):
     category_id = Column(
         Integer, ForeignKey('category.id')
     )
-    category = relationship(Category)
+    category = relationship(Category,cascade="all, delete-orphan", single_parent="true")
     @property
     def serialize(self):
         return {
             'name': self.name,
             'summary':self.description,
             'id': self.id,
-            'course': self.course
         }
 
 engine = create_engine(

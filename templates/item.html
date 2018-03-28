@@ -13,7 +13,7 @@
 <body>
     <div class="container wrapper">
         <div class="sidebar">
-            <a href="{{ url_for('viewCategory', category = category.name) }}" class="btn back waves-effect waves-light">
+            <a href="{{ url_for('viewCategory', category_name = category.name) }}" class="btn back waves-effect waves-light">
                 Back <-
             </a>
             <h4 class="title text-center font-weight-bold">
@@ -35,8 +35,8 @@
                     {{anime.name}}
                 </h4>
                 <hr/>
-                <div class="jumbotron header-image">
-                </div>
+                <!-- <div class="jumbotron header-image">
+                </div> -->
                 <h5>
                     Summary
                 </h5>
