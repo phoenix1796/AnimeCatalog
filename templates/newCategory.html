@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>SuuchiPatr - Catalog</title>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">   
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/forms.css') }}">
+</head>
+<body>
+    <div class="container wrapper">
+        <form class="editForm" action="{{ url_for('editItem',category_name = Category, item_name = Item.name) }}" method="post">
+            <div class="input-field">
+                <label for="name">Name </label>
+                <input name="name" value="{{ Item.name }}" type="text"/>
+            </div>
+            <div class="input-field">
+                <label for="summary">Summary </label>
+                <textarea class="materialize-textarea" name="summary" type="text">{{ Item.summary }}</textarea>
+            </div>
+            <button class="btn back waves-effect waves-light" type="submit">Edit</button>
+            <a href="{{ url_for('viewItem', category_name=Category, item_name = Item.name) }}" class="btn back waves-effect waves-light">Cancel</a>            
+        </form>
+    </div>
+</body>
+<script>
+    $(document).ready(function() {
+        $(document).ready(function() {
+            M.AutoInit();
+        });
+        
+    });
+</script>
+</html>

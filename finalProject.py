@@ -38,7 +38,7 @@ def getItemByName(item_name):
     return session.query(CatalogItem).filter_by(name = item_name).one()
 @app.route('/')
 @app.route('/catalog/')
-def showCatalog():
+def viewCatalog():
     return render_template('catalog.html', categoryList = getAllCategories())
 
 @app.route('/catalog/<string:category>/items')
@@ -79,7 +79,6 @@ def editItem(category_name, item_name):
             item.category = getCategoryByName(request.form['category'])
             session.add(item)
             session.commit()
-            print("asdasdsadsadsad:\n",item.category.name)
             return redirect(url_for('viewItem', category_name=item.category.name, item_name=item.name))
     else:
         return render_template('EditItem.html',CategoryList = getAllCategories(),Category = category_name, Item = item)
@@ -90,12 +89,19 @@ def newCategory():
 
 @app.route('/catalog/new/item', methods = ['GET','POST'])
 def newItem():
-    # check for request Query param : category_name for default Category
-    return "Create a new item page"
+    if request.method == 'POST':
+        newItem = CatalogItem(name = request.form['name'], summary = request.form['summary'],category = getCategoryByName(request.form['category']))
+        session.add(newItem)
+        session.commit()
+        return redirect(url_for('viewItem', category_name = newItem.category.name, item_name = newItem.name))
+    else:
+        if request.args.get('category_name'):
+            return render_template('newItem.html', CategoryList = getAllCategories(), Category = request.args.get('category_name'))
+        return render_template('newItem.html', CategoryList = getAllCategories())
 
 if __name__=='__main__':
     app.jinja_env.auto_reload = True
     app.config['TEMPLATES_AUTO_RELOAD'] = True
-    app.secret_key = 'shuck!'
+    app.secret_key = 'shitaki-mushrooms!'
     app.debug = True
     app.run(host='0.0.0.0', port=5000)
