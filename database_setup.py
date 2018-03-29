@@ -28,7 +28,7 @@ class Category(Base):
     )
     user_id = Column(Integer, ForeignKey('user.id'))
     user = relationship(User)
-    items = relationship('CatalogItem')
+    items = relationship('CatalogItem',cascade="all, delete-orphan", single_parent="true")
     @property
     def serialize(self):
         print(self.items)
@@ -47,7 +47,7 @@ class CatalogItem(Base):
     category_id = Column(
         Integer, ForeignKey('category.id')
     )
-    category = relationship(Category,cascade="all, delete-orphan", single_parent="true")
+    category = relationship(Category)
     user_id = Column(Integer, ForeignKey('user.id'))
     user = relationship(User)
 
