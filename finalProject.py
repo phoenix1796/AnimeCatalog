@@ -88,6 +88,13 @@ def gconnect():
     login_session['picture'] = data['picture']
     login_session['email'] = data['email']
 
+    #Check if user already exists
+    userId = getUserId(login_session['email'])
+    if userId is None:
+        userId = createUser(login_session)
+
+    login_session['user_id'] = userId
+
     output= "WOWZA!"
     return output
 
@@ -110,6 +117,7 @@ def gdisconnect():
         del login_session['username']
         del login_session['email']
         del login_session['picture']
+        del login_session['user_id']
     
         response = make_response(json.dumps('Successfully disconnected.'), 200)
         response.headers['Content-Type'] = 'application/json'
@@ -122,7 +130,7 @@ def gdisconnect():
 @app.route('/')
 @app.route('/catalog/')
 def viewCatalog():
-    return render_template('catalog.html', categoryList = getAllCategories())
+    return render_template('catalog.html', categoryList = getAllCategories(), loggedIn = '1' if 'user_id' in login_session else '0')
 
 @app.route('/catalog/<string:category_name>/items')
 def viewCategory(category_name):
@@ -131,21 +139,37 @@ def viewCategory(category_name):
     catalogItems = session.query(CatalogItem).filter_by(category_id = myCategory.id)
     return render_template('catalog.html', categoryList = categoryList, 
                                             category = myCategory,
-                                            items=catalogItems)
+                                            items=catalogItems,
+                                            loggedIn = '1' if 'user_id' in login_session else '0')
 
 @app.route('/catalog/<string:category_name>/<string:item_name>')
 def viewItem(category_name, item_name):
+
+
     myCategory = getCategoryByName(category_name)
     catalogItems = getItemsByCategory(myCategory)
     item = session.query(CatalogItem).filter_by(name = item_name).one()
-    return render_template('item.html', category = myCategory, items = catalogItems, anime = item)
+    if 'user_id' not in login_session:
+        return render_template('publicItem.html',
+                            category = myCategory, 
+                            items = catalogItems, 
+                            anime = item)
+    return render_template('item.html', 
+                            category = myCategory, 
+                            items = catalogItems, 
+                            anime = item,
+                            itemCreator = '1' if login_session['user_id'] == item.user_id else '0',
+                            categoryCreator = '1' if login_session['user_id'] == myCategory.user_id else '0')
 
 @app.route('/catalog/<string:category_name>/<string:item_name>/edit', methods = ['GET','POST'])
 def editItem(category_name, item_name):
-    print(login_session)
     if 'username' not in login_session:
         return redirect('/login')
+
     item = getItemByName(item_name)
+    if item.user_id != login_session['user_id']:
+        return "<body onload='alert(\"Forbidden Access.\")'>"
+
     if request.method == 'POST':
         if request.form['name']:
             item.name = request.form['name']
@@ -163,7 +187,7 @@ def newCategory():
         return redirect('/login')
 
     if request.method == 'POST':
-        newCategory = Category(name = request.form['name'], summary = request.form['summary'])
+        newCategory = Category(user_id = login_session['user_id'], name = request.form['name'], summary = request.form['summary'])
         session.add(newCategory)
         session.commit()
         return redirect(url_for('viewCatalog'))
@@ -176,7 +200,7 @@ def newItem():
         return redirect('/login')
 
     if request.method == 'POST':
-        newItem = CatalogItem(name = request.form['name'], summary = request.form['summary'],category = getCategoryByName(request.form['category']))
+        newItem = CatalogItem(user_id = login_session['user_id'], name = request.form['name'], summary = request.form['summary'],category = getCategoryByName(request.form['category']))
         session.add(newItem)
         session.commit()
         return redirect(url_for('viewItem', category_name = newItem.category.name, item_name = newItem.name))
@@ -190,24 +214,30 @@ def deleteCategory(category_name):
     if 'username' not in login_session:
         return redirect('/login')
 
+    Category = getCategoryByName(category_name)
+    if Category.user_id != login_session['user_id']:
+        return "<body onload='alert(\"Forbidden Access.\")'>"
+
     if request.method == 'POST':
-        item = session.query(Category).filter_by(name = category_name).one()
-        session.delete(item)
+        session.delete(Category)
         session.commit()
         return redirect(url_for('viewCatalog'))
     else:
-        return render_template('deleteCategory.html', Category = category_name)
+        return render_template('deleteCategory.html', Category = Category.name)
 
 @app.route('/catalog/<string:category_name>/<string:item_name>/delete', methods = ['GET','POST'])
 def deleteItem(category_name, item_name):
     if 'username' not in login_session:
         return redirect('/login')
 
+    item = getItemByName(item_name)
+    if item.user_id != login_session['user_id']:
+        return "<body onload='alert(\"Forbidden Access.\")'>"
+
     if request.method == 'POST':
-        item = session.query(CatalogItem).filter_by(name = item_name).one()
         session.delete(item)
         session.commit()
-        return redirect(url_for('viewCategory', category = category_name))
+        return redirect(url_for('viewCategory', category_name = category_name))
     else:
         return render_template('deleteItem.html', Item = item_name, Category = category_name)
 

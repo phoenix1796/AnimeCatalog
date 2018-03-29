@@ -474,8 +474,8 @@ if __name__ == '__main__':
     print('In main')
     from sqlalchemy import create_engine
     from sqlalchemy.orm import sessionmaker
-    from database_setup import Base,Category,CatalogItem
-    engine = create_engine('sqlite:///catalog.db')
+    from database_setup import Base,Category,CatalogItem,User
+    engine = create_engine('sqlite:///catalogWithUsers.db')
 
     Base.metadata.bind = engine
 
@@ -484,12 +484,15 @@ if __name__ == '__main__':
 
     # myFirstRestaurant = Restaurant(name = "Pizza palace")
 
+    User1 = User(name="Abhishek Chopra", email="phoenix.prog1796@gmail.com", picture='https://avatars2.githubusercontent.com/u/9111802')
+    session.add(User1)
+    session.commit()
     for idx,category in enumerate(categories):
-        myCategory = Category(name = category, summary = categorySum[idx])
+        myCategory = Category(user_id=1,name = category, summary = categorySum[idx])
         session.add(myCategory)
         session.commit()
         for item in anime[category]:
-          myItem = CatalogItem(name = item['name'], summary = item['summary'], category = myCategory)
+          myItem = CatalogItem(user_id=1,name = item['name'], summary = item['summary'], category = myCategory)
           session.add(myItem)
           session.commit()
 

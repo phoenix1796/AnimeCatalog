@@ -24,14 +24,6 @@
                 {{item.name}}
             </a>
             {% endfor %}
-            <a href="{{ url_for('newItem', category_name = category.name) }}" class="red darken-1 waves-effect waves-light btn">
-                    Add Anime
-            </a>
-            {% if categoryCreator == '1' %}
-            <a href="{{ url_for('deleteCategory', category_name = category.name) }}" class="red darken-1 waves-effect waves-light btn">
-                Delete Category
-            </a>
-            {% endif %}
         </div>
         <div class="viewContent">
             {% if anime %}
@@ -40,22 +32,12 @@
                     {{anime.name}}
                 </h4>
                 <hr/>
-                <!-- <div class="jumbotron header-image">
-                </div> -->
                 <h5>
                     Summary
                 </h5>
                 <p class="text-justify summary"> 
                     {{anime.summary}}
                 </p>
-                {% if itemCreator == '1' %}
-                <a href="{{ url_for('editItem', category_name = category.name, item_name = anime.name) }}" class="btn back waves-effect waves-light">
-                    Edit
-                </a>
-                <a href="{{ url_for('deleteItem', category_name = category.name, item_name = anime.name) }}" class="btn back waves-effect waves-light">
-                    Delete
-                </a>
-                {% endif %}
             </div>
             {%else%}
             <div class="vertRelative">

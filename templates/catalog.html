@@ -24,12 +24,14 @@
                 </a>
                 {% endfor %}
             </div>
+            {% if loggedIn == '1' %}
             <a href="{{ url_for('newCategory') }}" class="red darken-1 waves-effect waves-light btn">
                     Add Category
             </a>
             <a href="{{ url_for('newItem') }}" class="red darken-1 waves-effect waves-light btn">
                     Add Anime
             </a>
+            {% endif %}
         </div>
         <div class="viewContent">
             {% if category %}
@@ -37,9 +39,11 @@
                 <h4 class="title text-center font-weight-bold">
                     {{category.name}}
                 </h4>
+                {% if items.count() == 0 %}
                 <a href="{{ url_for('deleteCategory', category_name = category.name) }}" class="red darken-1 waves-effect waves-light btn">
                     Delete Category
                 </a>
+                {% endif %}    
                 <hr/>
                 <div class="items">
                     {% for i in items %}
