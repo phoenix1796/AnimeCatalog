@@ -60,6 +60,7 @@ class CatalogItem(Base):
             'category': self.category.name
         }
 
-engine = create_engine(
-    'sqlite:///catalogWithUsers.db')
-Base.metadata.create_all(engine)
+if __name__ == '__main__':
+    engine = create_engine(
+        'sqlite:///catalogWithUsers.db')
+    Base.metadata.create_all(engine)
