@@ -2,8 +2,8 @@ from flask import Flask,render_template,url_for,send_from_directory,request,redi
 from flask import session as login_session
 from controllers.authController import authController
 from controllers.jsonApi import jsonApiController
-from helpers.dbHelper import *
-from helpers.authHelper import *
+from helpers.dbHelper import session, CatalogItem, Category, getAllCategories, getCategoryByName, getItemByName, getItemsByCategory
+from helpers.authHelper import login_required
 
 app = Flask(__name__)
 
