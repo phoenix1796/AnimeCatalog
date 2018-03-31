@@ -1,28 +1,15 @@
 from flask import Flask, render_template, url_for, send_from_directory, request, redirect, flash, jsonify, abort
 from flask import session as login_session
-import random
-import string
 from controllers.authController import authController
 from controllers.jsonApi import jsonApiController
 from helpers.dbHelper import session, CatalogItem, Category, getAllCategories, getCategoryByName, getItemByName, getItemsByCategory
 from helpers.authHelper import login_required
+from helpers.securityHelper import csrf_protect, generate_csrf_token
 
 app = Flask(__name__)
 
 
-@app.before_request
-def csrf_protect():
-    if request.method == "POST":
-        token = login_session.pop('_csrf_token', None)
-        if not token or token != request.form.get('_csrf_token'):
-            abort(403)
-
-
-def generate_csrf_token():
-    if '_csrf_token' not in login_session:
-        login_session['_csrf_token'] = ''.join(random.choice(
-            string.ascii_lowercase + string.digits) for x in range(32))
-    return login_session['_csrf_token']
+app.before_request(csrf_protect)
 
 
 @app.route('/')
