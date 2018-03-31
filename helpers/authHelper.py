@@ -2,6 +2,7 @@ from functools import wraps
 from flask import redirect, url_for, request
 from flask import session as login_session
 
+
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):

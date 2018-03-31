@@ -1,5 +1,6 @@
 {
     "python.linting.pylintEnabled": true,
     "python.formatting.provider": "autopep8",
-    "python.linting.enabled": true
+    "python.linting.enabled": true,
+    "python.formatting.autopep8Path": "C:\\Program Files\\Python36\\Scripts\\autpep8.exe"
 }

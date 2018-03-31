@@ -6,11 +6,12 @@ from sqlalchemy import create_engine
 
 Base = declarative_base()
 
+
 class User(Base):
     __tablename__ = 'user'
 
     id = Column(
-        Integer, primary_key = True
+        Integer, primary_key=True
     )
     name = Column(String(255), nullable=False)
     email = Column(String(255), nullable=False)
@@ -20,15 +21,17 @@ class User(Base):
 class Category(Base):
     __tablename__ = 'category'
     name = Column(
-    String(80), unique=True,nullable=False)
+        String(80), unique=True, nullable=False)
     summary = Column(
         String(500), nullable=False)
     id = Column(
-        Integer, primary_key = True
+        Integer, primary_key=True
     )
     user_id = Column(Integer, ForeignKey('user.id'))
     user = relationship(User)
-    items = relationship('CatalogItem',cascade="all, delete-orphan", single_parent="true")
+    items = relationship(
+        'CatalogItem', cascade="all, delete-orphan", single_parent="true")
+
     @property
     def serialize(self):
         print(self.items)
@@ -36,8 +39,9 @@ class Category(Base):
             'id': self.id,
             'name': self.name,
             'summary': self.summary,
-            'anime':[i.serialize for i in self.items]
+            'anime': [i.serialize for i in self.items]
         }
+
 
 class CatalogItem(Base):
     __tablename__ = 'catalog_item'
@@ -55,10 +59,11 @@ class CatalogItem(Base):
     def serialize(self):
         return {
             'name': self.name,
-            'summary':self.summary,
+            'summary': self.summary,
             'id': self.id,
             'category': self.category.name
         }
+
 
 if __name__ == '__main__':
     engine = create_engine(
