@@ -1,17 +1,14 @@
-{% extends "layout/base.html" %}
-{% block head %}
-{{super()}}
-<link rel="stylesheet" href="{{ url_for('static',filename='css/forms.css') }}">
-{% endblock %}
-{% block content %}
+{% extends "layout/base.html" %} {% block head %} {{super()}}
+<link rel="stylesheet" href="{{ url_for('static',filename='css/forms.css') }}"> {% endblock %} {% block content %}
 <form class="editForm" action="{{ url_for('deleteCategory',category_name = Category) }}" method="post">
-    <input name="name" value="{{ Item }}" type="hidden"/>
-    <input name="category" value="{{ Category }}" type="hidden"/>
+    <input name=_csrf_token type=hidden value="{{ csrf_token() }}">
+    <input name="name" value="{{ Item }}" type="hidden" />
+    <input name="category" value="{{ Category }}" type="hidden" />
     <div class="flow-text">
-        Do you want to delete {{ Category }} ? <br> 
-        This will delete all Anime associated with this category !
+        Do you want to delete {{ Category }} ?
+        <br> This will delete all Anime associated with this category !
     </div>
     <button class="btn back waves-effect waves-light" type="submit">Delete</button>
-    <a href="{{ url_for('viewCatalog') }}" class="btn back waves-effect waves-light">Cancel</a>            
+    <a href="{{ url_for('viewCatalog') }}" class="btn back waves-effect waves-light">Cancel</a>
 </form>
 {% endblock %}

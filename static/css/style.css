@@ -53,9 +53,9 @@
 }
 
 .sidebar > .back {
-    position: absolute;
+    /* position: absolute;
     left: 0;
-    top: -2.5vmin;
+    top: -2.5vmin; */
     background-color: blue;
 }
 

@@ -1,25 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    {% block head %}
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"> {% block head %}
     <title>{% block title %}SuuchiPatr - Catalog{% endblock %}</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous"> -->
     <link rel="stylesheet" href="{{url_for('static',filename='css/materialize.css')}}">
-    <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">    
-    {% endblock %}
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}"> {% endblock %}
+
 </head>
+
 <body>
+    <div class="navbar-fixed">
+        <nav>
+            <div style="padding:0em 2em;" class="teal lighten-2 nav-wrapper">
+                <span class="brand-logo">Anime - SuuchiPatr</span>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                </ul>
+            </div>
+        </nav>
+    </div>
     <div class="container wrapper">
-        {% block content %}
-        {% endblock %}
+        {% block content %} {% endblock %}
     </div>
 </body>
-{% block scripts %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script>
+    function signInCallback(authResult) {
+        if (authResult['code']) {
+            // Hide the sign-in button now that the user is authorized
+            $('#signinButton').attr('style', 'display: none');
+            // Send the one-time-use code to the server, if the server responds, write a 'login successful' message to the web page and then redirect back to the main restaurants page
+            $.ajax({
+                type: 'POST',
+                url: '/gconnect?state={{STATE}}',
+                processData: false,
+                data: authResult['code'],
+                contentType: 'application/octet-stream; charset=utf-8',
+                success: function (result) {
+                    // Handle or verify the server response if necessary.
+                    if (result) {
+                        $('#result').html('Login Successful!</br>' + result + '</br>Redirecting...')
+                        location.reload();
+
+                    } else if (authResult['error']) {
+                        console.log('There was an error: ' + authResult['error']);
+                    } else {
+                        $('#result').html('Failed to make a server-side call. Check your configuration and console.');
+                    }
+                }
+
+            });
+        }
+    }
+</script> {% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
 <script src="{{ url_for('static', filename='js/materialize.js') }}"></script>
 <script src="{{ url_for('static', filename='js/index.js') }}"></script>
-{% endblock %}
+<!--LOAD PRE-REQUISITES FOR GOOGLE SIGN IN -->
+<script src="//apis.google.com/js/platform.js?onload=start"> </script> {% endblock %}
+
 </html>
