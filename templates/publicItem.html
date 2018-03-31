@@ -1,53 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>SuuchiPatr - Catalog</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{url_for('static',filename='css/materialize.css')}}">
-    <script src="{{ url_for('static', filename='js/materialize.js') }}"></script>
-    <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
-</head>
-<body>
-    <div class="container wrapper">
-        <div class="sidebar">
-            <a href="{{ url_for('viewCategory', category_name = category.name) }}" class="btn back waves-effect waves-light">
-                Back <-
-            </a>
-            <h4 class="title text-center font-weight-bold">
-                {{category.name}} Anime
-            </h4>
-            {% for item in items %}
-            <a href="{{ url_for('viewItem', category_name = category.name, item_name = item.name) }}" class="{{ 'disabled' if item.name == anime.name}} waves-effect waves-light btn category">
-                {{item.name}}
-            </a>
-            {% endfor %}
-        </div>
-        <div class="viewContent">
-            {% if anime %}
-            <div class="categoryDetails">
-                <h4 class="title text-center font-weight-bold">
-                    {{anime.name}}
-                </h4>
-                <hr/>
-                <h5>
-                    Summary
-                </h5>
-                <p class="text-justify summary"> 
-                    {{anime.summary}}
-                </p>
-            </div>
-            {%else%}
-            <div class="vertRelative">
-                <h4 class="title text-center font-weight-bold">
-                    Select an Anime ... <br>
-                    Shounen!
-                </h4>
-            </div>
-            {% endif %}                
-        </div>
+{% extends "layout/base.html" %}
+{% block content %}
+<div class="sidebar">
+    <a href="{{ url_for('viewCategory', category_name = category.name) }}" class="btn back waves-effect waves-light">
+        Back <-
+    </a>
+    <h4 class="title text-center font-weight-bold">
+        {{category.name}} Anime
+    </h4>
+    {% for item in items %}
+    <a href="{{ url_for('viewItem', category_name = category.name, item_name = item.name) }}" class="{{ 'disabled' if item.name == anime.name}} waves-effect waves-light btn category">
+        {{item.name}}
+    </a>
+    {% endfor %}
+</div>
+<div class="viewContent">
+    {% if anime %}
+    <div class="categoryDetails">
+        <h4 class="title text-center font-weight-bold">
+            {{anime.name}}
+        </h4>
+        <hr/>
+        <h5>
+            Summary
+        </h5>
+        <p class="text-justify summary"> 
+            {{anime.summary}}
+        </p>
     </div>
-</body>
-</html>
+    {%else%}
+    <div class="vertRelative">
+        <h4 class="title text-center font-weight-bold">
+            Select an Anime ... <br>
+            Shounen!
+        </h4>
+    </div>
+    {% endif %}                
+</div>
+{% endblock %}

@@ -2,7 +2,8 @@ from flask import Flask,render_template,url_for,send_from_directory,request,redi
 from flask import session as login_session
 from controllers.authController import authController
 from controllers.jsonApi import jsonApiController
-from dbHelper import *
+from helpers.dbHelper import *
+from helpers.authHelper import *
 
 app = Flask(__name__)
 
@@ -23,16 +24,16 @@ def viewCategory(category_name):
 
 @app.route('/catalog/<string:category_name>/<string:item_name>')
 def viewItem(category_name, item_name):
-
-
     myCategory = getCategoryByName(category_name)
     catalogItems = getItemsByCategory(myCategory)
     item = session.query(CatalogItem).filter_by(name = item_name).one()
+
     if 'user_id' not in login_session:
         return render_template('publicItem.html',
                             category = myCategory, 
                             items = catalogItems, 
                             anime = item)
+
     return render_template('item.html', 
                             category = myCategory, 
                             items = catalogItems, 
@@ -41,10 +42,8 @@ def viewItem(category_name, item_name):
                             categoryCreator = '1' if login_session['user_id'] == myCategory.user_id else '0')
 
 @app.route('/catalog/<string:category_name>/<string:item_name>/edit', methods = ['GET','POST'])
+@login_required
 def editItem(category_name, item_name):
-    if 'username' not in login_session:
-        return redirect('/login')
-
     item = getItemByName(item_name)
     if item.user_id != login_session['user_id']:
         return "<body onload='alert(\"Forbidden Access.\")'>"
@@ -61,10 +60,8 @@ def editItem(category_name, item_name):
         return render_template('EditItem.html',CategoryList = getAllCategories(),Category = category_name, Item = item)
 
 @app.route('/catalog/new/category', methods = ['GET','POST'])
+@login_required
 def newCategory():
-    if 'username' not in login_session:
-        return redirect('/login')
-
     if request.method == 'POST':
         newCategory = Category(user_id = login_session['user_id'], name = request.form['name'], summary = request.form['summary'])
         session.add(newCategory)
@@ -74,10 +71,8 @@ def newCategory():
         return render_template('newCategory.html', CategoryList = getAllCategories())
 
 @app.route('/catalog/new/item', methods = ['GET','POST'])
+@login_required
 def newItem():
-    if 'username' not in login_session:
-        return redirect('/login')
-
     if request.method == 'POST':
         newItem = CatalogItem(user_id = login_session['user_id'], name = request.form['name'], summary = request.form['summary'],category = getCategoryByName(request.form['category']))
         session.add(newItem)
@@ -89,10 +84,8 @@ def newItem():
         return render_template('newItem.html', CategoryList = getAllCategories())
 
 @app.route('/catalog/<string:category_name>/delete', methods = ['GET','POST'])
+@login_required
 def deleteCategory(category_name):
-    if 'username' not in login_session:
-        return redirect('/login')
-
     Category = getCategoryByName(category_name)
     if Category.user_id != login_session['user_id']:
         return "<body onload='alert(\"Forbidden Access.\")'>"
@@ -105,10 +98,8 @@ def deleteCategory(category_name):
         return render_template('deleteCategory.html', Category = Category.name)
 
 @app.route('/catalog/<string:category_name>/<string:item_name>/delete', methods = ['GET','POST'])
+@login_required
 def deleteItem(category_name, item_name):
-    if 'username' not in login_session:
-        return redirect('/login')
-
     item = getItemByName(item_name)
     if item.user_id != login_session['user_id']:
         return "<body onload='alert(\"Forbidden Access.\")'>"

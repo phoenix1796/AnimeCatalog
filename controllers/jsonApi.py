@@ -1,5 +1,5 @@
 from flask import Blueprint,jsonify
-from dbHelper import *
+from helpers.dbHelper import *
 
 jsonApiController = Blueprint('api/json', __name__)
 

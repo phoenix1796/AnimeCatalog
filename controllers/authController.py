@@ -1,7 +1,7 @@
-from flask import Blueprint, render_template, make_response, request
+from flask import Blueprint, render_template, make_response, request, redirect
 from flask import session as login_session
 
-from dbHelper import *
+from helpers.dbHelper import *
 
 import random,string
 import json
@@ -11,15 +11,21 @@ import requests
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
 
+GOOGLE_PLUS_SECRETS = 'secrets/client_secrets.json'
 
 authController = Blueprint('authController', __name__)
 
 CLIENT_ID = json.loads(
-open('client_secrets.json', 'r').read())['web']['client_id']
+open(GOOGLE_PLUS_SECRETS, 'r').read())['web']['client_id']
 
 
 @authController.route('/login')
-def showLogin():
+def login():
+    if 'username' in login_session:
+        if request.args.get('next'):
+            return redirect(request.args.get('next'))
+        else:
+            return redirect('/')
     state = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in range(32))
     login_session['state'] = state
     return render_template('login.html', STATE=state, CLIENT_ID=CLIENT_ID)
@@ -32,7 +38,7 @@ def gconnect():
         return response
     code = request.data
     try:
-        oauth_flow = flow_from_clientsecrets('client_secrets.json', scope='')
+        oauth_flow = flow_from_clientsecrets(GOOGLE_PLUS_SECRETS, scope='')
         oauth_flow.redirect_uri = 'postmessage'
         credentials = oauth_flow.step2_exchange(code)
     except FlowExchangeError:
@@ -40,8 +46,9 @@ def gconnect():
         response.headers['Content-Type'] = 'application/json'
         return response
     
+    #Check if the token received is a valid token
     access_token = credentials.access_token
-    url = ('https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=%s' % access_token)
+    url = (credentials.token_info_uri +"?access_token=%s" % access_token)
     response = requests.get(url)
     result = response.json()
     
@@ -52,7 +59,7 @@ def gconnect():
 
     #Verify if Access Token is for the intended user
     gPlusId = credentials.id_token['sub']
-    if result['user_id'] != gPlusId:
+    if result['sub'] != gPlusId:
         response = make_response(
             json.dumps('Token Id | User Id Mismatch')
         , 401)
@@ -60,7 +67,7 @@ def gconnect():
         return response        
 
     #Verify Access token is for the intended Application
-    if result['issued_to'] != CLIENT_ID:
+    if result['aud'] != CLIENT_ID:
         response = make_response(
             json.dumps('Token\'s Client Id | App Id Mismatch')
         , 401)
@@ -97,7 +104,7 @@ def gconnect():
     login_session['user_id'] = userId
 
     output= "WOWZA!"
-    return output
+    return redirect('/')
 
 @authController.route('/gdisconnect')
 def gdisconnect():
@@ -107,15 +114,14 @@ def gdisconnect():
         response.headers['Content-Type'] = 'application/json'
         return response
 
-    access_token = json.loads(credentials)['access_token']
-    url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' % access_token
-    print(url)
+    credentials = json.loads(credentials)
+    access_token = credentials['access_token']
+    url = credentials['revoke_uri'] 
 
-    # h = httplib2.Http()
-    # result = h.request(url, 'GET')
-    result = requests.get(url)
-    print(result.json())
-    if result.status_code == '200':
+    result = requests.post(url, params={'token': access_token}, headers = {'content-type': 'application/x-www-form-urlencoded'})
+    # print(result.status_code)
+
+    if result.status_code == 200:
         del login_session['credentials']
         del login_session['gplus_id']
         del login_session['username']
