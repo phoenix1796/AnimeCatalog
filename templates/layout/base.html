@@ -4,10 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge"> {% block head %}
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="google-signin-client_id" content="{{CLIENT_ID}}"> {% block head %}
     <title>{% block title %}SuuchiPatr - Catalog{% endblock %}</title>
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-        crossorigin="anonymous"> -->
     <link rel="stylesheet" href="{{url_for('static',filename='css/materialize.css')}}">
     <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}"> {% endblock %}
 
@@ -19,6 +18,11 @@
             <div style="padding:0em 2em;" class="teal lighten-2 nav-wrapper">
                 <span class="brand-logo">Anime - SuuchiPatr</span>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li id="signinButton">
+                        <span class="g-signin" data-scope="openid email" data-clientid="{{CLIENT_ID}}" data-redirecturi="postmessage" data-accesstype="offline"
+                            data-cookiepolicy="single_host_origin" data-callback="signInCallback" data-approvalprompt="force">
+                        </span>
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -28,6 +32,17 @@
     </div>
 </body>
 <script>
+    function start() {
+        gapi.signin2.render('my-signin2', {
+            'scope': 'profile email',
+            'width': 240,
+            'height': 50,
+            'longtitle': true,
+            'theme': 'dark',
+            'onsuccess': onSuccess,
+            'onfailure': onFailure
+        })
+    }
     function signInCallback(authResult) {
         if (authResult['code']) {
             // Hide the sign-in button now that the user is authorized
@@ -61,6 +76,6 @@
 <script src="{{ url_for('static', filename='js/materialize.js') }}"></script>
 <script src="{{ url_for('static', filename='js/index.js') }}"></script>
 <!--LOAD PRE-REQUISITES FOR GOOGLE SIGN IN -->
-<script src="//apis.google.com/js/platform.js?onload=start"> </script> {% endblock %}
+<script src="https://apis.google.com/js/platform.js?onload=start"> </script> {% endblock %}
 
 </html>

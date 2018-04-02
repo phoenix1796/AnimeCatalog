@@ -1,9 +1,13 @@
-from flask import Flask, render_template, url_for, send_from_directory, request, redirect, flash, jsonify, abort
 from flask import session as login_session
+from flask import (Flask, abort, flash, jsonify, redirect, render_template,
+                   request, send_from_directory, url_for)
+
 from controllers.authController import authController
 from controllers.jsonApi import jsonApiController
-from helpers.dbHelper import session, CatalogItem, Category, getAllCategories, getCategoryByName, getItemByName, getItemsByCategory
 from helpers.authHelper import login_required
+from helpers.dbHelper import (CatalogItem, Category, getAllCategories,
+                              getCategoryByName, getItemByName,
+                              getItemsByCategory, session)
 from helpers.securityHelper import csrf_protect, generate_csrf_token
 
 app = Flask(__name__)

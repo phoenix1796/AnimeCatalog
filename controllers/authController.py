@@ -20,6 +20,10 @@ CLIENT_ID = json.loads(
     open(GOOGLE_PLUS_SECRETS, 'r').read())['web']['client_id']
 
 
+def getGplusClientId():
+    return CLIENT_ID
+
+
 @authController.route('/login')
 def login():
     if 'username' in login_session:
