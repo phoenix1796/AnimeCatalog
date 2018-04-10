@@ -1,6 +1,4 @@
-{% set category = category|default('') -%}
-{% extends "layout/base.html" %}
-{% block content %}
+{% set category = category|default('') -%} {% extends "layout/base.html" %} {% block content %}
 <div class="sidebar">
     <h4 class="title text-center font-weight-bold">
         Categories
@@ -28,10 +26,13 @@
             {{category.name}}
         </h4>
         {% if items.count() == 0 %}
+        <a href="{{ url_for('editCategory', category_name = category.name) }}" class="btn back waves-effect waves-light">
+            Edit Category
+        </a>
         <a href="{{ url_for('deleteCategory', category_name = category.name) }}" class="red darken-1 waves-effect waves-light btn">
             Delete Category
         </a>
-        {% endif %}    
+        {% endif %}
         <hr/>
         <div class="items">
             {% for i in items %}
@@ -45,14 +46,15 @@
             </div>
             {% endfor %}
         </div>
-        
+
     </div>
     {%else%}
     <div style="position: relative;transform: translateY(-50%);top:50%;">
         <h4 class="title text-center font-weight-bold">
-            Select a category ... <br>
+            Select a category ...
+            <br>
         </h4>
     </div>
-    {% endif %}                
+    {% endif %}
 </div>
 {% endblock %}

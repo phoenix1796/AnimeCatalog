@@ -1,25 +1,27 @@
-{% extends "layout/base.html" %}
-{% block content %}
+{% extends "layout/base.html" %} {% block content %}
 <div class="sidebar">
     <a href="{{ url_for('viewCategory', category_name = category.name) }}" class="btn back waves-effect waves-light">
-        Back <-
-    </a>
-    <h4 class="title text-center font-weight-bold">
-        {{category.name}} Anime
-    </h4>
-    {% for item in items %}
-    <a href="{{ url_for('viewItem', category_name = category.name, item_name = item.name) }}" class="{{ 'disabled' if item.name == anime.name}} waves-effect waves-light btn category">
-        {{item.name}}
-    </a>
-    {% endfor %}
-    <a href="{{ url_for('newItem', category_name = category.name) }}" class="red darken-1 waves-effect waves-light btn">
-        Add Anime
-    </a>
-    {% if categoryCreator == '1' %}
-    <a href="{{ url_for('deleteCategory', category_name = category.name) }}" class="red darken-1 waves-effect waves-light btn">
-        Delete Category
-    </a>
-    {% endif %}
+        Back
+        <- </a>
+            <h4 class="title text-center font-weight-bold">
+                {{category.name}} Anime
+            </h4>
+            {% for item in items %}
+            <a href="{{ url_for('viewItem', category_name = category.name, item_name = item.name) }}" class="{{ 'disabled' if item.name == anime.name}} waves-effect waves-light btn category">
+                {{item.name}}
+            </a>
+            {% endfor %}
+            <a href="{{ url_for('newItem', category_name = category.name) }}" class="red darken-1 waves-effect waves-light btn">
+                Add Anime
+            </a>
+            {% if categoryCreator == '1' %}
+            <a href="{{ url_for('editCategory', category_name = category.name) }}" class="btn back waves-effect waves-light">
+                Edit Category
+            </a>
+            <a href="{{ url_for('deleteCategory', category_name = category.name) }}" class="red darken-1 waves-effect waves-light btn">
+                Delete Category
+            </a>
+            {% endif %}
 </div>
 <div class="viewContent">
     {% if anime %}
@@ -33,7 +35,7 @@
         <h5>
             Summary
         </h5>
-        <p class="text-justify summary"> 
+        <p class="text-justify summary">
             {{anime.summary}}
         </p>
         {% if itemCreator == '1' %}
@@ -48,10 +50,10 @@
     {%else%}
     <div class="vertRelative">
         <h4 class="title text-center font-weight-bold">
-            Select an Anime ... <br>
-            Shounen!
+            Select an Anime ...
+            <br> Shounen!
         </h4>
     </div>
-    {% endif %}                
+    {% endif %}
 </div>
 {% endblock %}

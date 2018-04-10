@@ -1,0 +1,16 @@
+{% extends "layout/base.html" %} {% block head %} {{super()}}
+<link rel="stylesheet" href="{{ url_for('static',filename='css/forms.css') }}"> {% endblock %} {% block content %}
+<form class="editForm" action="{{ url_for('editCategory',category_name = Category.name) }}" method="post">
+    <input name=_csrf_token type=hidden value="{{ csrf_token() }}">
+    <div class="input-field">
+        <label for="name">Name </label>
+        <input name="name" value="{{ Category.name }}" type="text" />
+    </div>
+    <div class="input-field">
+        <label for="summary">Summary </label>
+        <textarea class="materialize-textarea" name="summary" type="text">{{Category.summary}}</textarea>
+    </div>
+    <button class="btn back waves-effect waves-light" type="submit">Edit</button>
+    <a href="{{ url_for('viewCategory', category_name=Category.name) }}" class="btn back waves-effect waves-light">Cancel</a>
+</form>
+{% endblock %}

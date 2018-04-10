@@ -13,7 +13,7 @@ from helpers.securityHelper import csrf_protect, generate_csrf_token
 app = Flask(__name__)
 
 
-app.before_request(csrf_protect)
+# app.before_request(csrf_protect)
 
 
 @app.route('/')
@@ -56,6 +56,7 @@ def viewItem(category_name, item_name):
 
 @app.route('/catalog/<string:category_name>/<string:item_name>/edit', methods=['GET', 'POST'])
 @login_required
+@csrf_protect
 def editItem(category_name, item_name):
     item = getItemByName(item_name)
     if item.user_id != login_session['user_id']:
@@ -73,8 +74,28 @@ def editItem(category_name, item_name):
         return render_template('EditItem.html', CategoryList=getAllCategories(), Category=category_name, Item=item)
 
 
+@app.route('/catalog/<string:category_name>/edit', methods=['GET', 'POST'])
+@login_required
+@csrf_protect
+def editCategory(category_name):
+    category = getCategoryByName(category_name)
+    if category.user_id != login_session['user_id']:
+        return "<body onload='alert(\"Forbidden Access.\")'>"
+
+    if request.method == 'POST':
+        if request.form['name']:
+            category.name = request.form['name']
+            category.summary = request.form['summary']
+            session.add(category)
+            session.commit()
+            return redirect(url_for('viewCategory', category_name=category.name))
+    else:
+        return render_template('EditCategory.html', Category=category)
+
+
 @app.route('/catalog/new/category', methods=['GET', 'POST'])
 @login_required
+@csrf_protect
 def newCategory():
     if request.method == 'POST':
         newCategory = Category(
@@ -88,6 +109,7 @@ def newCategory():
 
 @app.route('/catalog/new/item', methods=['GET', 'POST'])
 @login_required
+@csrf_protect
 def newItem():
     if request.method == 'POST':
         newItem = CatalogItem(user_id=login_session['user_id'], name=request.form['name'],
@@ -103,6 +125,7 @@ def newItem():
 
 @app.route('/catalog/<string:category_name>/delete', methods=['GET', 'POST'])
 @login_required
+@csrf_protect
 def deleteCategory(category_name):
     Category = getCategoryByName(category_name)
     if Category.user_id != login_session['user_id']:
@@ -118,6 +141,7 @@ def deleteCategory(category_name):
 
 @app.route('/catalog/<string:category_name>/<string:item_name>/delete', methods=['GET', 'POST'])
 @login_required
+@csrf_protect
 def deleteItem(category_name, item_name):
     item = getItemByName(item_name)
     if item.user_id != login_session['user_id']:
