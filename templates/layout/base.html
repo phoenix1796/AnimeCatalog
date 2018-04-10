@@ -60,7 +60,6 @@
 <script src="{{ url_for( 'static', filename='js/index.js' ) }} "></script> {% endblock %}
 <script>
     $(document).ready(function() {
-        console.log("checking...")
         window.token = '{{ csrf_token() }}'
     })
 </script>
