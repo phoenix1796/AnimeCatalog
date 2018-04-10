@@ -39,7 +39,7 @@ def login():
 
 @authController.route('/gconnect', methods=['POST'])
 def gconnect():
-    if request.args.get('state') != login_session['state']:
+    if request.args.get('state') != login_session.pop('_csrf_token', None):
         response = make_response(json.dumps('Invalid State parameter'), 401)
         response.headers['Content-Type'] = 'application/json'
         return response
@@ -136,9 +136,9 @@ def gdisconnect():
         del login_session['picture']
         del login_session['user_id']
 
-        response = make_response(json.dumps('Successfully disconnected.'), 200)
-        response.headers['Content-Type'] = 'application/json'
-        return response
+        # response = make_response(json.dumps('Successfully disconnected.'), 200)
+        # response.headers['Content-Type'] = 'application/json'
+        return redirect('/')
     else:
         response = make_response(json.dumps(
             'Failed to revoke token for given user.'), 400)

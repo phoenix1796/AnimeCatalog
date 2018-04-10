@@ -2,7 +2,7 @@ from flask import session as login_session
 from flask import (Flask, abort, flash, jsonify, redirect, render_template,
                    request, send_from_directory, url_for)
 
-from controllers.authController import authController
+from controllers.authController import authController, getGplusClientId
 from controllers.jsonApi import jsonApiController
 from helpers.authHelper import login_required
 from helpers.dbHelper import (CatalogItem, Category, getAllCategories,
@@ -157,6 +157,7 @@ def deleteItem(category_name, item_name):
 
 if __name__ == '__main__':
     app.jinja_env.globals['csrf_token'] = generate_csrf_token
+    app.jinja_env.globals['CLIENT_ID'] = getGplusClientId()
     app.register_blueprint(jsonApiController, url_prefix='/api/json')
     app.register_blueprint(authController)
     app.secret_key = 'shitaki-mushrooms!'
