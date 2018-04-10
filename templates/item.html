@@ -14,7 +14,7 @@
             <a href="{{ url_for('newItem', category_name = category.name) }}" class="red darken-1 waves-effect waves-light btn">
                 Add Anime
             </a>
-            {% if categoryCreator == '1' %}
+            {% if session['user_id'] == category.user_id %}
             <a href="{{ url_for('editCategory', category_name = category.name) }}" class="btn back waves-effect waves-light">
                 Edit Category
             </a>
@@ -38,7 +38,7 @@
         <p class="text-justify summary">
             {{anime.summary}}
         </p>
-        {% if itemCreator == '1' %}
+        {% if session['user_id'] == anime.user_id %}
         <a href="{{ url_for('editItem', category_name = category.name, item_name = anime.name) }}" class="btn back waves-effect waves-light">
             Edit
         </a>

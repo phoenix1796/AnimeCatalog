@@ -10,7 +10,7 @@
         </a>
         {% endfor %}
     </div>
-    {% if loggedIn == '1' %}
+    {% if 'email' in session %}
     <a href="{{ url_for('newCategory') }}" class="red darken-1 waves-effect waves-light btn">
         Add Category
     </a>
@@ -25,7 +25,7 @@
         <h4 class="title text-center font-weight-bold">
             {{category.name}}
         </h4>
-        {% if items.count() == 0 %}
+        {% if items.count() == 0 and session['user_id'] == category.user_id%}
         <a href="{{ url_for('editCategory', category_name = category.name) }}" class="btn back waves-effect waves-light">
             Edit Category
         </a>

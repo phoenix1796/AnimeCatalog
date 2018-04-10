@@ -4,8 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="google-signin-client_id" content="{{CLIENT_ID}}"> {% block head %}
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"> {% block head %}
     <title>{% block title %}SuuchiPatr - Catalog{% endblock %}</title>
     <link rel="stylesheet" href="{{url_for('static',filename='css/materialize.css')}}">
     <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}"> {% endblock %}
@@ -19,54 +18,51 @@
 <body>
     <div class="navbar-fixed">
         <nav>
-            <div style="padding:0em 2em;" class="teal lighten-2 nav-wrapper">
-                <span class="brand-logo">Anime - SuuchiPatr</span>
-                <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <div style="padding:0em 2em; " class="teal lighten-2 nav-wrapper ">
+                <span class="brand-logo ">Anime - SuuchiPatr</span>
+                <ul id="nav-mobile " class="right hide-on-med-and-down ">
                     {% if 'email' not in session %}
-                    <li id="signinButton">
-                        <span class="g-signin" data-scope="openid email" data-clientid="{{CLIENT_ID}}" data-redirecturi="postmessage" data-accesstype="offline"
-                            data-cookiepolicy="single_host_origin" data-callback="signInCallback" data-approvalprompt="force">
+                    <li id="signinButton " style="position: absolute; top: 25%;right: 2%; ">
+                        <span class="g-signin " data-scope="openid email " data-clientid="{{CLIENT_ID}}" data-redirecturi="postmessage " data-accesstype="offline "
+                            data-cookiepolicy="single_host_origin " data-callback="signInCallback" data-approvalprompt="force">
                         </span>
                     </li>
                     {% else %}
-                    <a href="{{ url_for('authController.gdisconnect') }}" class="btn back waves-effect waves-light">
+                    <a href="{{ url_for( 'authController.gdisconnect') }} " class="btn back waves-effect waves-light ">
                         Logout
                     </a>
                     {% endif %}
                 </ul>
             </div>
         </nav>
+        <div id="loader" class="valign-wrapper center-align hide loader">
+                <div class="preloader-wrapper big active">
+                    <div class="spinner-layer spinner-blue-only">
+                        <div class=" circle-clipper left ">
+                            <div class="circle "></div>
+                        </div>
+                        <div class="gap-patch ">
+                            <div class="circle "></div>
+                        </div>
+                        <div class="circle-clipper right ">
+                            <div class="circle "></div>
+                        </div>
+                    </div>
+                </div>
+        </div>
     </div>
-    <div class="container wrapper">
+    <div class="container wrapper ">
         {% block content %} {% endblock %}
     </div>
 </body>
+{% block scripts %}
+<script src="{{ url_for( 'static', filename='js/materialize.js' ) }} "></script>
+<script src="{{ url_for( 'static', filename='js/index.js' ) }} "></script> {% endblock %}
 <script>
-    function signInCallback(authResult) {
-        if (authResult['code']) {
-            // Send the one-time-use code to the server, if the server responds, write a 'login successful' message to the web page and then redirect back to the main restaurants page
-            $.ajax({
-                type: 'POST',
-                url: '/gconnect?state={{csrf_token()}}',
-                processData: false,
-                data: authResult['code'],
-                contentType: 'application/octet-stream; charset=utf-8',
-                success: function (result) {
-                    // Handle or verify the server response if necessary.
-                    if (result) {
-                        location.reload();
-                    } else if (authResult['error']) {
-                        console.error('There was an error: ' + authResult['error']);
-                    } else {
-                        console.error('Failed to make a server-side call. Check your configuration and console.');
-                    }
-                }
-
-            });
-        }
-    }
-</script> {% block scripts %}
-<script src="{{ url_for('static', filename='js/materialize.js') }}"></script>
-<script src="{{ url_for('static', filename='js/index.js') }}"></script> {% endblock %}
+    $(document).ready(function() {
+        console.log("checking...")
+        window.token = '{{ csrf_token() }}'
+    })
+</script>
 
 </html>

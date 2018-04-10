@@ -13,13 +13,10 @@ from helpers.securityHelper import csrf_protect, generate_csrf_token
 app = Flask(__name__)
 
 
-# app.before_request(csrf_protect)
-
-
 @app.route('/')
 @app.route('/catalog/')
 def viewCatalog():
-    return render_template('catalog.html', categoryList=getAllCategories(), loggedIn='1' if 'user_id' in login_session else '0')
+    return render_template('catalog.html', categoryList=getAllCategories())
 
 
 @app.route('/catalog/<string:category_name>/items')
@@ -30,8 +27,7 @@ def viewCategory(category_name):
         category_id=myCategory.id)
     return render_template('catalog.html', categoryList=categoryList,
                            category=myCategory,
-                           items=catalogItems,
-                           loggedIn='1' if 'user_id' in login_session else '0')
+                           items=catalogItems)
 
 
 @app.route('/catalog/<string:category_name>/<string:item_name>')
@@ -49,9 +45,7 @@ def viewItem(category_name, item_name):
     return render_template('item.html',
                            category=myCategory,
                            items=catalogItems,
-                           anime=item,
-                           itemCreator='1' if login_session['user_id'] == item.user_id else '0',
-                           categoryCreator='1' if login_session['user_id'] == myCategory.user_id else '0')
+                           anime=item)
 
 
 @app.route('/catalog/<string:category_name>/<string:item_name>/edit', methods=['GET', 'POST'])
@@ -158,6 +152,7 @@ def deleteItem(category_name, item_name):
 if __name__ == '__main__':
     app.jinja_env.globals['csrf_token'] = generate_csrf_token
     app.jinja_env.globals['CLIENT_ID'] = getGplusClientId()
+    app.config['TEMPLATES_AUTO_RELOAD'] = True
     app.register_blueprint(jsonApiController, url_prefix='/api/json')
     app.register_blueprint(authController)
     app.secret_key = 'shitaki-mushrooms!'
