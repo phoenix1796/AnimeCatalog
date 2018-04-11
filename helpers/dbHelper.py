@@ -4,7 +4,7 @@ from database_setup import Base, Category, CatalogItem, User
 
 
 # db setup
-engine = create_engine("sqlite:///catalogWithUsers.db")
+engine = create_engine("sqlite:///catalog.db")
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)

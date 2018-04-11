@@ -67,5 +67,5 @@ class CatalogItem(Base):
 
 if __name__ == '__main__':
     engine = create_engine(
-        'sqlite:///catalogWithImages.db')
+        'sqlite:///catalog.db')
     Base.metadata.create_all(engine)
