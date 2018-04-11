@@ -57,6 +57,6 @@ To change webserver port ,
 
 ## References
 
-controllers/authController.py -> Used code from the Oauth course @ udacity
+controllers/authController.py - > Used code from the Oauth course @ udacity
 
 'Started this for my udacity Fullstack nanodegree , continuing it because it seemed like an interesting excuse to watch anime in my free time :P '
