@@ -31,7 +31,7 @@ def gconnect():
         response.headers['Content-Type'] = 'application/json'
         return response
     code = request.data
-    print(code)
+    # Exchange Auth code for Access Token using OAuth Flow
     try:
         oauth_flow = flow_from_clientsecrets(GOOGLE_PLUS_SECRETS, scope='')
         oauth_flow.redirect_uri = 'postmessage'
@@ -115,7 +115,6 @@ def gdisconnect():
 
     result = requests.post(url, params={'token': access_token}, headers={
                            'content-type': 'application/x-www-form-urlencoded'})
-    # print(result.status_code)
 
     if result.status_code == 200:
         del login_session['credentials']
@@ -125,8 +124,6 @@ def gdisconnect():
         del login_session['picture']
         del login_session['user_id']
 
-        # response = make_response(json.dumps('Successfully disconnected.'), 200)
-        # response.headers['Content-Type'] = 'application/json'
         return redirect('/')
     else:
         response = make_response(json.dumps(

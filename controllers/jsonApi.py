@@ -1,7 +1,13 @@
 from flask import Blueprint, jsonify
-from helpers.dbHelper import getCategoryByName, getItemByName
+from helpers.dbHelper import getCategoryByName, getItemByName, getAllCatalogItems
 
 jsonApiController = Blueprint('api/json', __name__)
+
+
+@jsonApiController.route('/')
+def viewAllJSON():
+    allItems = getAllCatalogItems()
+    return jsonify([i.serialize for i in allItems])
 
 
 @jsonApiController.route('/<string:category_name>')

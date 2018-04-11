@@ -16,7 +16,6 @@ def getAllCategories():
 
 
 def getCategoryByName(name):
-    print(name)
     return session.query(Category).filter_by(name=name).one()
 
 
@@ -48,3 +47,7 @@ def getUserId(email):
         return user.id
     except:
         return None
+
+
+def getAllCatalogItems():
+    return session.query(Category).all()
