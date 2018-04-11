@@ -13,7 +13,7 @@
     <div class="input-field">
         <select name="category">
             {% for category in CategoryList %}
-            <option value="{{category.name}}" {% if Category==c ategory.name %}selected="selected" {% endif %}>{{category.name}}</option>
+            <option value="{{category.name}}" {% if Category == category.name %}selected="selected" {% endif %}>{{category.name}}</option>
             {% endfor %}
         </select>
         <label>Category </label>

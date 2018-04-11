@@ -11,6 +11,12 @@ def generate_csrf_token():
             string.ascii_lowercase + string.digits) for x in range(32))
     return login_session['_csrf_token']
 
+def generate_login_token():
+    if 'login_token' not in login_session:
+        login_session['login_token'] = ''.join(random.choice(
+            string.ascii_lowercase + string.digits) for x in range(32))
+    return login_session['login_token']
+
 def csrf_protect(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):

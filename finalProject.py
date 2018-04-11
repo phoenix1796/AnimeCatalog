@@ -8,7 +8,7 @@ from helpers.authHelper import login_required
 from helpers.dbHelper import (CatalogItem, Category, getAllCategories,
                               getCategoryByName, getItemByName,
                               getItemsByCategory, session)
-from helpers.securityHelper import csrf_protect, generate_csrf_token
+from helpers.securityHelper import csrf_protect, generate_csrf_token, generate_login_token
 
 app = Flask(__name__)
 
@@ -151,6 +151,7 @@ def deleteItem(category_name, item_name):
 
 if __name__ == '__main__':
     app.jinja_env.globals['csrf_token'] = generate_csrf_token
+    app.jinja_env.globals['login_token'] = generate_login_token    
     app.jinja_env.globals['CLIENT_ID'] = getGplusClientId()
     app.config['TEMPLATES_AUTO_RELOAD'] = True
     app.register_blueprint(jsonApiController, url_prefix='/api/json')
