@@ -20,12 +20,13 @@
 <body>
     <div class="navbar-fixed">
         <nav>
-            <div style="padding:0em 2em; " class="teal lighten-2 nav-wrapper ">
+            <div style="padding:0em 2em;" class="teal lighten-2 nav-wrapper ">
                 <span class="brand-logo ">Anime - SuuchiPatr</span>
                 <ul id="nav-mobile " class="right hide-on-med-and-down ">
                     {% if 'email' not in session %}
                     <a href="#" id="gPlusSignIn" class="btn back waves-effect waves-light ">
-                        Login
+                    <img class="material-icons left" src="{{url_for('static',filename='img/gPlus.svg')}}" alt=""/>
+                        &nbsp;Login
                     </a>
                     {% else %}
                     <li>
