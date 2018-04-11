@@ -145,7 +145,7 @@ def deleteItem(category_name, item_name):
 
 if __name__ == '__main__':
     app.jinja_env.globals['csrf_token'] = generate_csrf_token
-    app.jinja_env.globals['login_token'] = generate_login_token    
+    app.jinja_env.globals['login_token'] = generate_login_token
     app.jinja_env.globals['CLIENT_ID'] = getGplusClientId()
     app.config['TEMPLATES_AUTO_RELOAD'] = True
     app.register_blueprint(jsonApiController, url_prefix='/api/json')
