@@ -4,14 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge"> {% block head %}
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"> 
+    <meta name="google-signin-client_id" content="{{CLIENT_ID}}">
+    {% block head %}
     <title>{% block title %}SuuchiPatr - Catalog{% endblock %}</title>
     <link rel="stylesheet" href="{{url_for('static',filename='css/materialize.css')}}">
     <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}"> {% endblock %}
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
     <!--LOAD PRE-REQUISITES FOR GOOGLE SIGN IN -->
-    <script src="//apis.google.com/js/platform.js?onload=start"> </script>
+    <script src="https://apis.google.com/js/api:client.js"></script>
 
 </head>
 
@@ -22,11 +24,9 @@
                 <span class="brand-logo ">Anime - SuuchiPatr</span>
                 <ul id="nav-mobile " class="right hide-on-med-and-down ">
                     {% if 'email' not in session %}
-                    <li id="signinButton " style="position: absolute; top: 25%;right: 2%; ">
-                        <span class="g-signin " data-scope="openid email " data-clientid="{{CLIENT_ID}}" data-redirecturi="postmessage " data-accesstype="offline "
-                            data-cookiepolicy="single_host_origin " data-callback="signInCallback" data-approvalprompt="force">
-                        </span>
-                    </li>
+                    <a href="#" id="gPlusSignIn" class="btn back waves-effect waves-light ">
+                        Login
+                    </a>
                     {% else %}
                     <li>
                         Logged in as <b>{{session['email']}}</b>

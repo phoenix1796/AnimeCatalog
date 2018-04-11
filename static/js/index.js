@@ -1,10 +1,28 @@
 $(document).ready(function() {
-  $(document).ready(function() {
-    M.AutoInit();
-  });
+  M.AutoInit();
+  startApp();
 });
 
-function signInCallback(authResult) {
+var startApp = function() {
+  gapi.load("auth2", function() {
+    // Retrieve the singleton for the GoogleAuth library and set up the client.
+    var auth2 = gapi.auth2.init({
+      client_id: $("meta[name='google-signin-client_id']").attr("content"),
+      cookie_policy: "single_host_origin",
+      fetch_basic_profile: true
+    });
+    $("#gPlusSignIn").click(function() {
+      auth2
+        .grantOfflineAccess({
+          redirect_uri: "postmessage",
+          approval_prompt: "force"
+        })
+        .then(signInCallback);
+    });
+  });
+};
+
+var signInCallback = function(authResult) {
   if (authResult["code"]) {
     // Unhide the loader
     $("#loader ").removeClass("hide");
@@ -29,4 +47,4 @@ function signInCallback(authResult) {
       }
     });
   }
-}
+};

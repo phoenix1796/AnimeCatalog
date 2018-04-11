@@ -31,6 +31,7 @@ def gconnect():
         response.headers['Content-Type'] = 'application/json'
         return response
     code = request.data
+    print(code)
     try:
         oauth_flow = flow_from_clientsecrets(GOOGLE_PLUS_SECRETS, scope='')
         oauth_flow.redirect_uri = 'postmessage'
@@ -39,6 +40,7 @@ def gconnect():
         response = make_response(json.dumps(
             'Failed to upgrade the Auth code'), 401)
         response.headers['Content-Type'] = 'application/json'
+        print("Failed to upgrade Auth code")
         return response
 
     # Check if the token received is a valid token
