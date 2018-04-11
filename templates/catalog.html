@@ -25,6 +25,9 @@
         <h4 class="title text-center font-weight-bold">
             {{category.name}}
         </h4>
+        <blockquote>
+            {{category.summary}}
+        </blockquote>
         {% if items.count() == 0 and session['user_id'] == category.user_id%}
         <a href="{{ url_for('editCategory', category_name = category.name) }}" class="btn back waves-effect waves-light">
             Edit Category
