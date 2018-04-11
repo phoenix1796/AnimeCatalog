@@ -36,12 +36,6 @@ def viewItem(category_name, item_name):
     catalogItems = getItemsByCategory(myCategory)
     item = session.query(CatalogItem).filter_by(name=item_name).one()
 
-    if 'user_id' not in login_session:
-        return render_template('publicItem.html',
-                               category=myCategory,
-                               items=catalogItems,
-                               anime=item)
-
     return render_template('item.html',
                            category=myCategory,
                            items=catalogItems,

@@ -24,22 +24,9 @@ def getGplusClientId():
     return CLIENT_ID
 
 
-@authController.route('/login')
-def login():
-    if 'username' in login_session:
-        if request.args.get('next'):
-            return redirect(request.args.get('next'))
-        else:
-            return redirect('/')
-    state = ''.join(random.choice(string.ascii_uppercase + string.digits)
-                    for x in range(32))
-    login_session['state'] = state
-    return render_template('login.html', STATE=state, CLIENT_ID=CLIENT_ID)
-
-
 @authController.route('/gconnect', methods=['POST'])
 def gconnect():
-    if request.args.get('state') != login_session.pop('_csrf_token', None):
+    if request.args.get('state') != login_session.pop('login_token', None):
         response = make_response(json.dumps('Invalid State parameter'), 401)
         response.headers['Content-Type'] = 'application/json'
         return response
