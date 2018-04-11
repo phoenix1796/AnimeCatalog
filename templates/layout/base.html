@@ -28,6 +28,9 @@
                         </span>
                     </li>
                     {% else %}
+                    <li>
+                        Logged in as <b>{{session['email']}}</b>
+                    </li>
                     <a href="{{ url_for( 'authController.gdisconnect') }} " class="btn back waves-effect waves-light ">
                         Logout
                     </a>
