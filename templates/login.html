@@ -1,0 +1,10 @@
+{% extends "layout/base.html" %} {% block content %}
+<script>
+    $("#loader ").removeClass("hide");
+    $("#gPlusSignIn").addClass("pulse");
+    $(document).ready(function () {
+        setTimeout(function () {
+            $("#gPlusSignIn").click();
+        }, 2000)
+    })
+</script> {% endblock %}

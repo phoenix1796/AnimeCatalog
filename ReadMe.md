@@ -5,6 +5,7 @@
 * CSRF protection
 * GooglePlus Login
 * JSON Api
+* Login Deep linking
 
 ## Setup
 

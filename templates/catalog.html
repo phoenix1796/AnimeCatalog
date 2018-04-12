@@ -10,14 +10,12 @@
         </a>
         {% endfor %}
     </div>
-    {% if 'email' in session %}
     <a href="{{ url_for('newCategory') }}" class="red waves-effect waves-light btn">
         Add Category
     </a>
     <a href="{{ url_for('newItem') }}" class="red waves-effect waves-light btn">
         Add Anime
     </a>
-    {% endif %}
 </div>
 <div class="viewContent">
     {% if category %}

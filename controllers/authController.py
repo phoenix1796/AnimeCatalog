@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, make_response, request, redirect
+from flask import Blueprint, render_template, make_response, request, redirect, jsonify
 from flask import session as login_session
 
 from helpers.dbHelper import *
@@ -22,6 +22,11 @@ CLIENT_ID = json.loads(
 
 def getGplusClientId():
     return CLIENT_ID
+
+
+@authController.route('/login')
+def login():
+    return render_template('login.html')
 
 
 @authController.route('/gconnect', methods=['POST'])
@@ -97,7 +102,10 @@ def gconnect():
 
     login_session['user_id'] = userId
 
-    output = "WOWZA!"
+    # Redirect to the previous url if available login page
+    if 'next' in login_session:
+        return jsonify({'next': login_session.pop('next', None)})
+
     return redirect('/')
 
 

@@ -7,6 +7,7 @@ def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if 'username' not in login_session:
-            return redirect(url_for('authController.login', next=request.url))
+            login_session['next'] = request.url
+            return redirect(url_for('authController.login'))
         return f(*args, **kwargs)
     return decorated_function

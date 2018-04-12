@@ -36,7 +36,8 @@ var signInCallback = function(authResult) {
       success: function(result) {
         // Handle or verify the server response if necessary.
         if (result) {
-          location.reload();
+          if (result.next) window.location = result.next;
+          else location.reload();
         } else if (authResult["error"]) {
           console.error("There was an error: " + authResult["error"]);
         } else {
