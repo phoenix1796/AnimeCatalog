@@ -1,4 +1,5 @@
-from flask import Blueprint, render_template, make_response, request, redirect, jsonify
+from flask import (Blueprint, render_template, make_response,
+                   request, redirect, jsonify)
 from flask import session as login_session
 
 from helpers.dbHelper import *
@@ -121,8 +122,10 @@ def gdisconnect():
     access_token = credentials['access_token']
     url = credentials['revoke_uri']
 
-    result = requests.post(url, params={'token': access_token}, headers={
-                           'content-type': 'application/x-www-form-urlencoded'})
+    result = requests.post(
+        url, params={
+            'token': access_token}, headers={
+            'content-type': 'application/x-www-form-urlencoded'})
 
     if result.status_code == 200:
         del login_session['credentials']

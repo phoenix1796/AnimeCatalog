@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify
-from helpers.dbHelper import getCategoryByName, getItemByName, getAllCatalogItems
+from helpers.dbHelper import (getCategoryByName,
+                              getItemByName, getAllCatalogItems)
 
 jsonApiController = Blueprint('api/json', __name__)
 
