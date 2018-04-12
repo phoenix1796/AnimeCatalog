@@ -1,5 +1,7 @@
 # AnimeCatalog
 
+A place to catalog any and all anime you watch !
+
 ## Features
 
 * CSRF protection
@@ -55,6 +57,11 @@ To disable flask debug mode,
 To change webserver port ,
 
 > finalProject.py(154:33)
+
+## Screenshots
+
+![Home page](/screenshots/ss1.png?raw=true "Catalog Overview")
+![Anime page](/screenshots/ss2.png?raw=true "Anime Overview")
 
 ## References
 
