@@ -32,6 +32,10 @@ def login():
 
 @authController.route('/gconnect', methods=['POST'])
 def gconnect():
+    """
+    Gathers data from Google Sign In API
+    and places it inside a session variable.
+    """
     if request.args.get('state') != login_session.pop('login_token', None):
         response = make_response(json.dumps('Invalid State parameter'), 401)
         response.headers['Content-Type'] = 'application/json'
@@ -112,6 +116,10 @@ def gconnect():
 
 @authController.route('/gdisconnect')
 def gdisconnect():
+    """
+    Revoke the OAuth token using Google Sign Out API
+    and delete the details from session.
+    """
     credentials = login_session.get('credentials')
     if credentials is None:
         response = make_response(json.dumps('Current User not connected'), 401)

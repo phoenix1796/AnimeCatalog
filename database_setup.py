@@ -8,6 +8,14 @@ Base = declarative_base()
 
 
 class User(Base):
+    """Class to store User information
+
+    Attributes:
+        id (int): Unique user id for the user.
+        name (str): User name for the user.
+        email (str): Email Id associated with the user.
+        picture (str, Optional): URL for the profile pic of user.'
+    """
     __tablename__ = 'user'
 
     id = Column(
@@ -19,6 +27,17 @@ class User(Base):
 
 
 class Category(Base):
+    """Class to store Category information
+
+    Attributes:
+        id (int): Unique Category id
+        name (str): Category name
+        summary (str): Summary of each category
+        user_id (int): Foreign Key, UserId for the creator of this category
+        user (obj): Foreign key relation object
+        items ([obj]): One(Category) to Many(Items) relation object ,
+                        for items belonging to a Category
+    """
     __tablename__ = 'category'
     name = Column(
         String(80), unique=True, nullable=False)
@@ -34,6 +53,10 @@ class Category(Base):
 
     @property
     def serialize(self):
+        """
+        Serialize Category
+        & all the items belonging to the category
+        """
         return {
             'id': self.id,
             'name': self.name,
@@ -43,6 +66,17 @@ class Category(Base):
 
 
 class CatalogItem(Base):
+    """Class to store CatalogItem information
+
+    Attributes:
+        id (int): Unique Item id
+        name (str): Item name
+        summary (str): Summary of each item
+        user_id (int): Foreign Key, UserId for the creator of this item
+        user (obj): Foreign key relation object
+        items ([obj]): Many(Items) to One(Category) relation object ,
+                        for items belonging to a Category
+    """
     __tablename__ = 'catalog_item'
     name = Column(String(80), nullable=False)
     id = Column(Integer, primary_key=True)
@@ -56,6 +90,10 @@ class CatalogItem(Base):
 
     @property
     def serialize(self):
+        """
+        Serialize the item ,
+        to ease conversion to json
+        """
         return {
             'name': self.name,
             'summary': self.summary,

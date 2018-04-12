@@ -4,6 +4,12 @@ from flask import session as login_session
 
 
 def login_required(f):
+    """
+    Check if username attribute is present in the login_session
+    If not ,
+    Store the current URL (for deeplinking)
+    and redirect user to login Controller
+    """
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if 'username' not in login_session:

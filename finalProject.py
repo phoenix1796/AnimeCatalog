@@ -17,11 +17,17 @@ app = Flask(__name__)
 @app.route('/')
 @app.route('/catalog/')
 def viewCatalog():
+    """
+    Serve the overview of the catalog
+    """
     return render_template('catalog.html', categoryList=getAllCategories())
 
 
 @app.route('/catalog/<string:category_name>/items')
 def viewCategory(category_name):
+    """
+    View all items of the specified category_name
+    """
     categoryList = getAllCategories()
     myCategory = getCategoryByName(category_name)
     catalogItems = session.query(CatalogItem).filter_by(
@@ -33,6 +39,9 @@ def viewCategory(category_name):
 
 @app.route('/catalog/<string:category_name>/<string:item_name>')
 def viewItem(category_name, item_name):
+    """
+    View details about the specific item_name belonging to category_name
+    """
     myCategory = getCategoryByName(category_name)
     catalogItems = getItemsByCategory(myCategory)
     item = session.query(CatalogItem).filter_by(name=item_name).one()
@@ -51,6 +60,9 @@ def viewItem(category_name, item_name):
 @login_required
 @csrf_protect
 def editItem(category_name, item_name):
+    """
+    Edit item details of Item:item_name belonging to Category:category_name
+    """
     item = getItemByName(item_name)
     if item.user_id != login_session['user_id']:
         return "<body onload='alert(\"Forbidden Access.\")'>"
@@ -79,6 +91,9 @@ def editItem(category_name, item_name):
 @login_required
 @csrf_protect
 def editCategory(category_name):
+    """
+    Edit details about the Category: category_name
+    """
     category = getCategoryByName(category_name)
     if category.user_id != login_session['user_id']:
         return "<body onload='alert(\"Forbidden Access.\")'>"
@@ -101,6 +116,9 @@ def editCategory(category_name):
 @login_required
 @csrf_protect
 def newCategory():
+    """
+    Create a new category
+    """
     if request.method == 'POST':
         newCategory = Category(
             user_id=login_session['user_id'],
@@ -119,6 +137,9 @@ def newCategory():
 @login_required
 @csrf_protect
 def newItem():
+    """
+    Create a new CatalogItem
+    """
     if request.method == 'POST':
         newItem = CatalogItem(
             user_id=login_session['user_id'],
@@ -146,6 +167,9 @@ def newItem():
 @login_required
 @csrf_protect
 def deleteCategory(category_name):
+    """
+    Delete an existing Category: category_name
+    """
     Category = getCategoryByName(category_name)
     if Category.user_id != login_session['user_id']:
         return "<body onload='alert(\"Forbidden Access.\")'>"
@@ -166,6 +190,9 @@ def deleteCategory(category_name):
 @login_required
 @csrf_protect
 def deleteItem(category_name, item_name):
+    """
+    Delete an existing Item: item_name
+    """
     item = getItemByName(item_name)
     if item.user_id != login_session['user_id']:
         return "<body onload='alert(\"Forbidden Access.\")'>"
