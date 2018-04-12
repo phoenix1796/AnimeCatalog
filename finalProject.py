@@ -8,7 +8,8 @@ from helpers.authHelper import login_required
 from helpers.dbHelper import (CatalogItem, Category, getAllCategories,
                               getCategoryByName, getItemByName,
                               getItemsByCategory, session)
-from helpers.securityHelper import csrf_protect, generate_csrf_token, generate_login_token
+from helpers.securityHelper import (csrf_protect, generate_csrf_token,
+                                    generate_login_token)
 
 app = Flask(__name__)
 
@@ -42,7 +43,11 @@ def viewItem(category_name, item_name):
                            anime=item)
 
 
-@app.route('/catalog/<string:category_name>/<string:item_name>/edit', methods=['GET', 'POST'])
+@app.route(
+    '/catalog/<string:category_name>/<string:item_name>/edit',
+    methods=[
+        'GET',
+        'POST'])
 @login_required
 @csrf_protect
 def editItem(category_name, item_name):
@@ -57,9 +62,17 @@ def editItem(category_name, item_name):
             item.category = getCategoryByName(request.form['category'])
             session.add(item)
             session.commit()
-            return redirect(url_for('viewItem', category_name=item.category.name, item_name=item.name))
+            return redirect(
+                url_for(
+                    'viewItem',
+                    category_name=item.category.name,
+                    item_name=item.name))
     else:
-        return render_template('EditItem.html', CategoryList=getAllCategories(), Category=category_name, Item=item)
+        return render_template(
+            'EditItem.html',
+            CategoryList=getAllCategories(),
+            Category=category_name,
+            Item=item)
 
 
 @app.route('/catalog/<string:category_name>/edit', methods=['GET', 'POST'])
@@ -76,7 +89,10 @@ def editCategory(category_name):
             category.summary = request.form['summary']
             session.add(category)
             session.commit()
-            return redirect(url_for('viewCategory', category_name=category.name))
+            return redirect(
+                url_for(
+                    'viewCategory',
+                    category_name=category.name))
     else:
         return render_template('EditCategory.html', Category=category)
 
@@ -87,12 +103,16 @@ def editCategory(category_name):
 def newCategory():
     if request.method == 'POST':
         newCategory = Category(
-            user_id=login_session['user_id'], name=request.form['name'], summary=request.form['summary'])
+            user_id=login_session['user_id'],
+            name=request.form['name'],
+            summary=request.form['summary'])
         session.add(newCategory)
         session.commit()
         return redirect(url_for('viewCatalog'))
     else:
-        return render_template('newCategory.html', CategoryList=getAllCategories())
+        return render_template(
+            'newCategory.html',
+            CategoryList=getAllCategories())
 
 
 @app.route('/catalog/new/item', methods=['GET', 'POST'])
@@ -100,14 +120,25 @@ def newCategory():
 @csrf_protect
 def newItem():
     if request.method == 'POST':
-        newItem = CatalogItem(user_id=login_session['user_id'], name=request.form['name'],
-                              summary=request.form['summary'], category=getCategoryByName(request.form['category']))
+        newItem = CatalogItem(
+            user_id=login_session['user_id'],
+            name=request.form['name'],
+            summary=request.form['summary'],
+            category=getCategoryByName(
+                request.form['category']))
         session.add(newItem)
         session.commit()
-        return redirect(url_for('viewItem', category_name=newItem.category.name, item_name=newItem.name))
+        return redirect(
+            url_for(
+                'viewItem',
+                category_name=newItem.category.name,
+                item_name=newItem.name))
     else:
         if request.args.get('category_name'):
-            return render_template('newItem.html', CategoryList=getAllCategories(), Category=request.args.get('category_name'))
+            return render_template(
+                'newItem.html',
+                CategoryList=getAllCategories(),
+                Category=request.args.get('category_name'))
         return render_template('newItem.html', CategoryList=getAllCategories())
 
 
@@ -127,7 +158,11 @@ def deleteCategory(category_name):
         return render_template('deleteCategory.html', Category=Category.name)
 
 
-@app.route('/catalog/<string:category_name>/<string:item_name>/delete', methods=['GET', 'POST'])
+@app.route(
+    '/catalog/<string:category_name>/<string:item_name>/delete',
+    methods=[
+        'GET',
+        'POST'])
 @login_required
 @csrf_protect
 def deleteItem(category_name, item_name):
@@ -140,7 +175,10 @@ def deleteItem(category_name, item_name):
         session.commit()
         return redirect(url_for('viewCategory', category_name=category_name))
     else:
-        return render_template('deleteItem.html', Item=item_name, Category=category_name)
+        return render_template(
+            'deleteItem.html',
+            Item=item_name,
+            Category=category_name)
 
 
 if __name__ == '__main__':
