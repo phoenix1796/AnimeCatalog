@@ -40,6 +40,9 @@ Start the project using,
 
 \*(127.0.0.1 not allowed in the google dashboard)
 
+## Server setup
+copy AnimeCatalog.conf to /etc/init
+
 ## JSON endpoints
 
 |                 Endpoint                  |           Function           |
@@ -66,5 +69,7 @@ To change webserver port ,
 ## References
 
 controllers/authController.py - > Used code from the Oauth course @ udacity
+https://www.digitalocean.com/community/tutorials/how-to-serve-flask-applications-with-uwsgi-and-nginx-on-ubuntu-14-04
+
 
 'Started this for my udacity Fullstack nanodegree , continuing it because it seemed like an interesting excuse to watch anime in my free time :P '

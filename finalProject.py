@@ -208,12 +208,14 @@ def deleteItem(category_name, item_name):
             Category=category_name)
 
 
+app.jinja_env.globals['csrf_token'] = generate_csrf_token
+app.jinja_env.globals['login_token'] = generate_login_token
+app.jinja_env.globals['CLIENT_ID'] = getGplusClientId()
+app.register_blueprint(jsonApiController, url_prefix='/api/json')
+app.register_blueprint(authController)
+app.secret_key = '0d784e7a-3d71-11e8-b467-0ed5f89f718b'
+app.debug = True
+
+
 if __name__ == '__main__':
-    app.jinja_env.globals['csrf_token'] = generate_csrf_token
-    app.jinja_env.globals['login_token'] = generate_login_token
-    app.jinja_env.globals['CLIENT_ID'] = getGplusClientId()
-    app.register_blueprint(jsonApiController, url_prefix='/api/json')
-    app.register_blueprint(authController)
-    app.secret_key = '0d784e7a-3d71-11e8-b467-0ed5f89f718b'
-    app.debug = True
     app.run(host='0.0.0.0', port=5000)
